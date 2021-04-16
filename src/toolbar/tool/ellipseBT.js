@@ -8,15 +8,8 @@ import layerSort from '../layerSort'
 export default function ellipseBT(me) {
   let ellipseBT = document.createElement('span')
   ellipseBT.id = 'kssArrowBT'
-  ellipseBT.className = 'kssToolbarItemBT'
+  ellipseBT.className = 'iconfont iconcircle kssToolbarItemBT'
   ellipseBT.title = '椭圆工具'
-
-  let ellipseImg = document.createElement('img')
-  ellipseImg.className = 'kssToolbarItemImg'
-  ellipseImg.src = img
-  me.ellipseBT = ellipseBT
-
-  ellipseBT.appendChild(ellipseImg)
 
   ellipseBT.addEventListener('click', function() {
     me.isEdit = true

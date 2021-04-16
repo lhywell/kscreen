@@ -9,18 +9,10 @@ import layerSort from '../layerSort'
 export default function arrowBT (me) {
     let arrowBT = document.createElement('span')
     arrowBT.id = 'kssArrowBT'
-    arrowBT.className = 'kssToolbarItemBT'
+    arrowBT.className = 'iconfont iconarrow-top-right kssToolbarItemBT'
     arrowBT.title = '箭头工具'
   
-    let arrowImg = document.createElement('img')
-    arrowImg.className = 'kssToolbarItemImg'
-    arrowImg.src = img
-    me.arrowBT = arrowBT
-
-    arrowBT.appendChild(arrowImg)
-
     arrowBT.addEventListener('click', function () {
-        alert(1)
         me.isEdit = true
         
         if (me.currentToolType === 'arrow') {

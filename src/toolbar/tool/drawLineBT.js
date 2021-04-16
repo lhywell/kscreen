@@ -7,15 +7,8 @@ import layerSort from '../layerSort'
 export default function drawLineBT (me) {
     let drawLineBT = document.createElement('span')
     drawLineBT.id = 'kssDrawLineBT'
-    drawLineBT.className = 'kssToolbarItemBT'
+    drawLineBT.className = 'iconfont iconbrush kssToolbarItemBT'
     drawLineBT.title = '画刷工具'
-
-    let drawLineImg = document.createElement('img')
-    drawLineImg.className = 'kssToolbarItemImg'
-    drawLineImg.src = img
-    me.drawLineBT = drawLineBT
-
-    drawLineBT.appendChild(drawLineImg)
 
     drawLineBT.addEventListener('click', function () {
         me.isEdit = true

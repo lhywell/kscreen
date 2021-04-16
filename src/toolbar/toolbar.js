@@ -13,30 +13,9 @@ import textBT from './tool/textBT'
 import toolbarMiddleArea from './toolbarMiddleArea'
 import toolbarPosition from './toolbarPosition'
 
-const toolConfig = [
-    {
-        component: completeBT,
-        show: 'complete',
-        width: 40
-    },
-    {
-        component: quitBT,
-        show: 'quit',
-        width: 30
-    },
-    {
-        component: backBT,
-        show: 'back',
-        width: 30
-    },
-    {
-        component: arrowBT,
-        show: 'arrow',
-        width: 30
-    },
-    {
-        component: drawLineBT,
-        show: 'drawLine',
+const toolConfig = [{
+        component: colorBT,
+        show: 'color',
         width: 30
     },
     {
@@ -50,29 +29,55 @@ const toolConfig = [
         width: 30
     },
     {
+        component: arrowBT,
+        show: 'arrow',
+        width: 30
+    },
+    {
+        component: drawLineBT,
+        show: 'drawLine',
+        width: 30
+    },
+    {
         component: textBT,
         show: 'text',
         width: 30
     },
     {
-        component: colorBT,
-        show: 'color',
+        component: backBT,
+        show: 'back',
         width: 30
+    },
+    {
+        component: quitBT,
+        show: 'quit',
+        width: 30
+    },
+    {
+        component: completeBT,
+        show: 'complete',
+        width: 40
     }
 ]
 
-export default function createToolbar (me) {
+export default function createToolbar(me) {
     let toolbar = document.createElement('div')
     toolbar.id = 'kssToolbar'
-    
+
     if (typeChecking(me.toolShow) !== '[object Object]') {
         me.toolShow = {}
     }
     let toolbarWidth = 0
-    
-    toolConfig.forEach((it) => {
+
+    toolConfig.forEach((it, index) => {
         if (me.toolShow[it.show] !== false) {
+            if (index === 6) {
+                let span = document.createElement('span')
+                span.className = 'split'
+                toolbar.appendChild(span)
+            }
             toolbar.appendChild(it.component(me))
+
             toolbarWidth += it.width
         }
     })
@@ -81,7 +86,7 @@ export default function createToolbar (me) {
     me.toolbarWidth = toolbarWidth
     css(toolbar, {
         top: me.height + me.toolbarMarginTop + 'px',
-        width: toolbarWidth + 'px'
+        // width: toolbarWidth + 'px'
     })
 
     toolbarPosition(me, me.width, me.height, me.startY, me.startX, toolbar)
@@ -94,7 +99,7 @@ export default function createToolbar (me) {
     // me.toolShow.ellipse !== false && toolbar.appendChild(ellipseBT(me))
     // me.toolShow.text !== false && toolbar.appendChild(textBT(me))
     // me.toolShow.color !== false && toolbar.appendChild(colorBT(me))
-    
+
     toolbar.appendChild(toolbarMiddleArea(me))
 
     me.kssScreenShotWrapper.appendChild(toolbar)

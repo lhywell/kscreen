@@ -7,15 +7,8 @@ import layerSort from '../layerSort'
 export default function backBT (me) {
     let backBT = document.createElement('span')
     backBT.id = 'kssbackeBT'
-    backBT.className = 'kssToolbarItemBT'
+    backBT.className = 'iconfont iconundo kssToolbarItemBT'
     backBT.title = '后退'
-
-    let backImg = document.createElement('img')
-    backImg.className = 'kssToolbarItemImg'
-    backImg.src = img
-    me.backBT = backBT
-
-    backBT.appendChild(backImg)
 
     backBT.addEventListener('click', function () {
         if (me.snapshootList.length > 1) {

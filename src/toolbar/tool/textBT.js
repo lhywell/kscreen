@@ -7,15 +7,8 @@ import img from '../../assets/imgs/text.png'
 export default function textBT (me) {
     let textBT = document.createElement('span')
     textBT.id = 'kssTextBT'
-    textBT.className = 'kssToolbarItemBT'
+    textBT.className = 'iconfont icont kssToolbarItemBT'
     textBT.title = '字体工具'
-
-    let textImg = document.createElement('img')
-    textImg.className = 'kssToolbarItemImg'
-    textImg.src = img
-    me.textBT = textBT
-
-    textBT.appendChild(textImg)
 
     textBT.addEventListener('click', function () {
         me.isEdit = true

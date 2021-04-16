@@ -8,15 +8,8 @@ import layerSort from '../layerSort'
 export default function rectBT (me) {
     let rectBT = document.createElement('span')
     rectBT.id = 'kssRectBT'
-    rectBT.className = 'kssToolbarItemBT'
+    rectBT.className = 'iconfont iconrectangle kssToolbarItemBT'
     rectBT.title = '方形工具'
-
-    let rectImg = document.createElement('img')
-    rectImg.className = 'kssToolbarItemImg'
-    rectImg.src = img
-    me.rectBT = rectBT
-
-    rectBT.appendChild(rectImg)
 
     rectBT.addEventListener('click', function () {
         me.isEdit = true

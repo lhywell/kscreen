@@ -1,0 +1,79 @@
+{
+  "id": "2491517",
+  "name": "weixinshot",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "21049665",
+      "name": "arrow-top-right",
+      "font_class": "arrow-top-right",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "21045361",
+      "name": "palette",
+      "font_class": "palette",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "21038054",
+      "name": "t",
+      "font_class": "t",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "21037965",
+      "name": "brush (1)",
+      "font_class": "brush",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "21037737",
+      "name": "undo",
+      "font_class": "undo",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "21037213",
+      "name": "circle",
+      "font_class": "circle",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "21037216",
+      "name": "rectangle",
+      "font_class": "rectangle",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "21036568",
+      "name": "close",
+      "font_class": "close",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "21036639",
+      "name": "download",
+      "font_class": "download1",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "21036293",
+      "name": "check",
+      "font_class": "check",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    }
+  ]
+}

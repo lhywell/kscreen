@@ -9,6 +9,7 @@ import endAndClear from './toolbar/endAndClear'
 import backRightClient from './backRightClient'
 import toolbarPosition from './toolbar/toolbarPosition'
 // import cursorImg from './assets/imgs/cursor.ico'
+import './assets/fonts/iconfont.css'
 import './kss.scss'
 
 function initLineWidth (initLine) {

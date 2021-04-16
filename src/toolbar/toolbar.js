@@ -67,7 +67,7 @@ export default function createToolbar(me) {
     if (typeChecking(me.toolShow) !== '[object Object]') {
         me.toolShow = {}
     }
-    let toolbarWidth = 0
+    // let toolbarWidth = 0
 
     toolConfig.forEach((it, index) => {
         if (me.toolShow[it.show] !== false) {
@@ -78,12 +78,12 @@ export default function createToolbar(me) {
             }
             toolbar.appendChild(it.component(me))
 
-            toolbarWidth += it.width
+            // toolbarWidth += it.width
         }
     })
 
-    toolbarWidth += 10
-    me.toolbarWidth = toolbarWidth
+    // toolbarWidth += 10
+    // me.toolbarWidth = toolbarWidth
     css(toolbar, {
         top: me.height + me.toolbarMarginTop + 'px',
         // width: toolbarWidth + 'px'

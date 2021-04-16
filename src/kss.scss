@@ -1,27 +1,29 @@
-$baseColor: #488ff9;
+$baseColor: #000000;
 
-.kssBody{
+.kssBody {
     cursor: crosshair;
     user-select: none;
 
-    noscript{
-        strong{
+    noscript {
+        strong {
             display: none;
         }
     }
 
-    #kss{
+    #kss {
         position: fixed;
         top: 0;
         left: 0;
         z-index: 10000;
     }
-    #kssScreenShotWrapper{
+
+    #kssScreenShotWrapper {
         position: fixed;
         background: transparent;
         box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
         z-index: 10001;
-        #kssTextLayer{
+
+        #kssTextLayer {
             position: absolute;
             top: 0;
             left: 0;
@@ -29,7 +31,8 @@ $baseColor: #488ff9;
             height: 100%;
             z-index: 98;
             cursor: crosshair;
-            .kssTextarea{
+
+            .kssTextarea {
                 background: transparent;
                 resize: none;
                 min-width: 60px;
@@ -38,13 +41,15 @@ $baseColor: #488ff9;
                 border-color: transparent;
                 overflow: hidden;
                 font-family: 宋体;
-                &:hover{
+
+                &:hover {
                     cursor: text;
                     outline: #488ff9 solid 1px;
                 }
             }
         }
-        #kssRectangleCanvas{
+
+        #kssRectangleCanvas {
             height: 100%;
             width: 100%;
             top: 0;
@@ -53,12 +58,21 @@ $baseColor: #488ff9;
             position: absolute;
             z-index: 99;
         }
-        .kssDot, .kssLine{
+
+        .kssDot,
+        .kssLine {
             position: absolute;
             background: $baseColor;
             z-index: 100;
         }
-        #kssCurrentImgDom{
+
+        .kssDot {
+            border: 1px solid $baseColor;
+            border-radius: 50%;
+            background: #fff;
+        }
+
+        #kssCurrentImgDom {
             width: 100%;
             height: 100%;
             position: absolute;
@@ -66,28 +80,29 @@ $baseColor: #488ff9;
             left: 0;
             display: none;
         }
-        #kssToolbar{
+
+        #kssToolbar {
             position: absolute;
             right: 0;
-            background: #7d7c7a;
-            border: 1px solid #575757;
+            background: #837e75;
+            border: 1px solid #626262;
             border-radius: 4px;
             box-sizing: border-box;
             height: 40px;
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 101, 0.08);
-            display:flex;
+            box-shadow: 2px 2px 12px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
             align-items: center;
             width: 380px;
             z-index: 100;
 
-            .split{
+            .split {
                 border-left: 1px solid #918c8c;
                 display: inline-block;
                 height: 20px;
                 margin: 0 8px;
             }
 
-            .kssToolbarItemBT{
+            .kssToolbarItemBT {
                 display: inline-block;
                 height: 30px;
                 line-height: 30px;
@@ -97,21 +112,21 @@ $baseColor: #488ff9;
                 font-size: 20px;
                 margin: 0 10px;
 
-                &:hover{
-                }
+                &:hover {}
 
-                .kssToolbarItemImg{
+                .kssToolbarItemImg {
                     width: 20px;
                     height: 20px;
                     margin-top: 5px;
                 }
             }
-            .kssToolbarActiveItemBT{
+
+            .kssToolbarActiveItemBT {
                 color: #53b436;
             }
 
-            #kssToolbarMiddleArea{
-                #kssColorBoard{
+            #kssToolbarMiddleArea {
+                #kssColorBoard {
                     position: absolute;
                     width: 180px;
                     height: 40px;
@@ -123,7 +138,8 @@ $baseColor: #488ff9;
                     outline: none;
                     cursor: default;
                     z-index: 100;
-                    #kssCurrentColor{
+
+                    #kssCurrentColor {
                         display: inline-block;
                         width: 30px;
                         height: 30px;
@@ -131,13 +147,15 @@ $baseColor: #488ff9;
                         box-sizing: border-box;
                         border: 1px solid #333;
                     }
-                    #kssColorItemWrapper{
+
+                    #kssColorItemWrapper {
                         display: inline-block;
                         vertical-align: top;
                         width: 130px;
                         margin-top: 5px;
                         font-size: 0;
-                        .kssColorItem{
+
+                        .kssColorItem {
                             display: inline-block;
                             width: 14px;
                             height: 14px;
@@ -148,7 +166,8 @@ $baseColor: #488ff9;
                         }
                     }
                 }
-                #kssSetLineWidth{
+
+                #kssSetLineWidth {
                     position: absolute;
                     width: 155px;
                     height: 40px;
@@ -160,42 +179,50 @@ $baseColor: #488ff9;
                     outline: none;
                     cursor: default;
                     z-index: 100;
-                    #kssNumInputWrapper{
+
+                    #kssNumInputWrapper {
                         margin: 7px 0 0 8px;
                         position: relative;
                         display: inline-block;
-                        #kssNumInput{
+
+                        #kssNumInput {
                             width: 40px;
                             height: 24px;
                             border: 1px solid #bbb;
                             border-radius: 4px;
                             padding: 0 15px 0 8px;
                         }
-                        #kssArrowNumWrapper{
+
+                        #kssArrowNumWrapper {
                             position: absolute;
                             right: 0;
                             top: 1px;
                             border-radius: 0 4px 4px 0;
                             font-size: 0;
                             line-height: 12px;
-                            #kssUpNum, #kssDownNum{
+
+                            #kssUpNum,
+                            #kssDownNum {
                                 height: 12px;
                                 font-size: 12px;
                                 cursor: pointer;
-                                &:hover{
+
+                                &:hover {
                                     background: #dedede;
                                 }
                             }
                         }
                     }
-                    #kssShowLineWidthWrapper{
+
+                    #kssShowLineWidthWrapper {
                         display: inline-block;
                         height: 40px;
                         line-height: 40px;
                         vertical-align: top;
                         width: 80px;
                         text-align: center;
-                        #kssShowLineWidth{
+
+                        #kssShowLineWidth {
                             height: 20px;
                             display: inline-block;
                             vertical-align: middle

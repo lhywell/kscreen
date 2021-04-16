@@ -2,28 +2,28 @@ import { css } from './util'
 import drawMiddleImage from './toolbar/middleImage/drawMiddleImage'
 import clearMiddleImage from './toolbar/middleImage/clearMiddleImage'
 import backRightClient from './backRightClient'
-import toolbarPosition from  './toolbar/toolbarPosition'
+import toolbarPosition from './toolbar/toolbarPosition'
 
-export default function createDragDom (dom, dotSize, lineSize, me) {
+export default function createDragDom(dom, dotSize, lineSize, me) {
     const lineList = [
-        {name: 'n',style: {top: '-' + (lineSize / 2) + 'px', left: 0, width: '100%', height: (lineSize / 2) + 'px'}},
-        {name: 's',style: {bottom: '-' + (lineSize / 2) + 'px', left: 0, width: '100%', height: (lineSize / 2) + 'px'}},
-        {name: 'w',style: {top: 0, left: '-' + (lineSize / 2) + 'px', width: (lineSize / 2) + 'px', height: '100%'}},
-        {name: 'e',style: {top: 0, right: '-' + (lineSize / 2) + 'px', width: (lineSize / 2) + 'px', height: '100%'}}
+        { name: 'n', style: { top: '-' + (lineSize / 2) + 'px', left: 0, width: '100%', height: (lineSize / 2) + 'px' } },
+        { name: 's', style: { bottom: '-' + (lineSize / 2) + 'px', left: 0, width: '100%', height: (lineSize / 2) + 'px' } },
+        { name: 'w', style: { top: 0, left: '-' + (lineSize / 2) + 'px', width: (lineSize / 2) + 'px', height: '100%' } },
+        { name: 'e', style: { top: 0, right: '-' + (lineSize / 2) + 'px', width: (lineSize / 2) + 'px', height: '100%' } }
     ]
     lineList.forEach((it) => {
         dom.appendChild(createLine(it.name, it.style, lineSize))
     })
-
+    let podot = dotSize / 2 + 2;
     const dotList = [
-        {name: 'nw',style: {top: '-' + (dotSize / 2 + 'px'), left: '-' + (dotSize / 2) + 'px'}},
-        {name: 'ne',style: {top: '-' + (dotSize / 2 + 'px'), right: '-' + (dotSize / 2) + 'px'}},
-        {name: 'se',style: {bottom: '-' + (dotSize / 2 + 'px'), right: '-' + (dotSize / 2) + 'px'}},
-        {name: 'e',style: {top: `calc(50% - ${dotSize / 2 + 'px'})`, right: '-' + (dotSize / 2) + 'px'}},
-        {name: 'w',style: {top: `calc(50% - ${dotSize / 2 + 'px'})`, left: '-' + (dotSize / 2) + 'px'}},
-        {name: 'n',style: {top: '-' + (dotSize / 2 + 'px'), left: `calc(50% - ${dotSize / 2 + 'px'})`}},
-        {name: 's',style: {bottom: '-' + (dotSize / 2 + 'px'), left: `calc(50% - ${dotSize / 2 + 'px'})`}},
-        {name: 'sw',style: {bottom: '-' + (dotSize / 2 + 'px'), left: '-' + (dotSize / 2) + 'px'}},
+        { name: 'nw', style: { top: '-' + (podot + 'px'), left: '-' + (podot) + 'px' } },
+        { name: 'ne', style: { top: '-' + (podot + 'px'), right: '-' + (podot) + 'px' } },
+        { name: 'se', style: { bottom: '-' + (podot + 'px'), right: '-' + (podot) + 'px' } },
+        { name: 'e', style: { top: `calc(50% - ${podot + 'px'})`, right: '-' + (podot) + 'px' } },
+        { name: 'w', style: { top: `calc(50% - ${podot + 'px'})`, left: '-' + (podot) + 'px' } },
+        { name: 'n', style: { top: '-' + (podot + 'px'), left: `calc(50% - ${podot + 'px'})` } },
+        { name: 's', style: { bottom: '-' + (podot + 'px'), left: `calc(50% - ${podot + 'px'})` } },
+        { name: 'sw', style: { bottom: '-' + (podot + 'px'), left: '-' + (podot) + 'px' } },
     ]
     dotList.forEach((it) => {
         dom.appendChild(createDot(it.name, it.style, dotSize, it.id))
@@ -43,7 +43,7 @@ export default function createDragDom (dom, dotSize, lineSize, me) {
     bindSurroundEvent('vertical', 'skssLine', dom, me)
 }
 
-function createDot (type, style, size) {
+function createDot(type, style, size) {
     let dom = document.createElement('div')
     dom.id = type + 'kssDot'
     dom.className = 'kssDot'
@@ -58,7 +58,7 @@ function createDot (type, style, size) {
     return dom
 }
 
-function createLine (type, style, size) {
+function createLine(type, style, size) {
     let dom = document.createElement('div')
     dom.id = type + 'kssLine'
     dom.className = 'kssLine'
@@ -71,8 +71,8 @@ function createLine (type, style, size) {
     return dom
 }
 
-function bindCornerEvent (name, dom, me) {
-    document.getElementById(name).addEventListener('mousedown', function (event) {
+function bindCornerEvent(name, dom, me) {
+    document.getElementById(name).addEventListener('mousedown', function(event) {
         if (me.isEdit) {
             return
         }
@@ -84,10 +84,11 @@ function bindCornerEvent (name, dom, me) {
 
         //将起始点设置为对角
         me.startX = 2 * (me.startX + me.width / 2) - currentLeft;
-        me.startY = 2 * (me.startY + me.height /2 ) - currentTop;
+        me.startY = 2 * (me.startY + me.height / 2) - currentTop;
         let startX = event.clientX
         let startY = event.clientY
-        function mousemoveEvent (e) {
+
+        function mousemoveEvent(e) {
             let client = backRightClient(e)
             let clientX = client[0]
             let clientY = client[1]
@@ -104,7 +105,7 @@ function bindCornerEvent (name, dom, me) {
                 left: left + 'px'
             }
             css(dom, style)
-     
+
             toolbarPosition(me, width, height, top, left, me.toolbar)
         }
         document.addEventListener('mouseup', mouseupEvent)
@@ -127,8 +128,8 @@ function bindCornerEvent (name, dom, me) {
     })
 }
 
-function bindSurroundEvent (type, name, dom, me) {
-    document.getElementById(name).addEventListener('mousedown', function (event) {
+function bindSurroundEvent(type, name, dom, me) {
+    document.getElementById(name).addEventListener('mousedown', function(event) {
         if (me.isEdit) {
             return
         }
@@ -140,10 +141,11 @@ function bindSurroundEvent (type, name, dom, me) {
         if (type === 'horizontal') {
             me.startX = 2 * (me.startX + me.width / 2) - currentLeft;
         } else if (type === 'vertical') {
-            me.startY = 2 * (me.startY + me.height /2 ) - currentTop;
+            me.startY = 2 * (me.startY + me.height / 2) - currentTop;
         }
         let startX = event.clientX
         let startY = event.clientY
+
         function mousemoveEvent(e) {
             let client = backRightClient(e)
             let clientX = client[0]
@@ -201,7 +203,7 @@ function bindSurroundEvent (type, name, dom, me) {
 }
 
 //获取鼠标位置最近坐标点
-function approximate (start, thickness, current) {
+function approximate(start, thickness, current) {
     if (Math.abs(current - start) >= Math.abs(current - start - thickness)) {
         return start + thickness
     } else {

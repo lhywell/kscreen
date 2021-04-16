@@ -61,14 +61,14 @@ let kss = (function () {
         this.startY = null
         this.width = null
         this.height = null
-        this.dotSize = 6
+        this.dotSize = 5
         this.lineSize = 2
         //工具显示状态
         this.toolShow = options.toolShow
         //工具栏样式
         this.toolbarWidth = null
         this.toolbarHeight = 30
-        this.toolbarMarginTop = 5
+        this.toolbarMarginTop = 10
         this.toolbarColor = '#fb3838'
         this.toolbarLineWidth = typeChecking(options.toolShow) === '[object Object]' ? initLineWidth(options.toolShow.drawLine) : 10
         

@@ -1,5 +1,5 @@
 // import {a} from './toolbar.js'
-import html2canvas from './html2canvas.min.js'
+import html2canvas from './lib/html2canvas.min.js'
 import { css, remove, domType, addClass, typeChecking } from './util'
 import createDragDom from './createDragDom.js'
 import createToolbar from './toolbar/toolbar.js'
@@ -213,7 +213,6 @@ let kss = (function () {
                         top: top + 'px',
                         left: left + 'px'
                     })
-                    
                     toolbarPosition(that, that.width, that.height, top, left, that.toolbar)
                 }
     

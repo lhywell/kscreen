@@ -2,7 +2,6 @@ import { css, remove } from '../../util'
 import makeSnapShoot from '../makeSnapShoot'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
-import img from '../../assets/imgs/text.png'
 import language from '../../common/language'
 
 export default function textBT (me) {

@@ -1,6 +1,5 @@
 import { css, remove } from '../../util'
 import drawMiddleImage from '../middleImage/drawMiddleImage'
-import img from '../../assets/imgs/cancel.png'
 import endAndClear from '../endAndClear'
 import language from '../../common/language'
 

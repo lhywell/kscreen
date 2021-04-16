@@ -1,6 +1,5 @@
 import { css } from '../../util'
 import backToPreImg from '../backToPreImg'
-import img from '../../assets/imgs/back.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
 import language from '../../common/language'

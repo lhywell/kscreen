@@ -1,6 +1,5 @@
 import { css } from '../../util'
 import makeSnapShoot from '../makeSnapShoot'
-import img from '../../assets/imgs/draw.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
 import language from '../../common/language'

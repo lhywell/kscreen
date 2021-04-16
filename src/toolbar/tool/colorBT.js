@@ -1,5 +1,4 @@
 import { css } from '../../util'
-import img from '../../assets/imgs/color.png'
 import language from '../../common/language'
 
 export default function colorBT (me) {

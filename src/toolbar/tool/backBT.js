@@ -14,11 +14,13 @@ export default function backBT (me) {
         if (me.snapshootList.length > 1) {
             if (me.snapshootList.length === 2) {
                 layerSort(me, 'canvasLayer')
+                backBT.classList.remove('greaterone');
                 backToInit()
             }
             me.snapshootList.pop()
         } else if (me.snapshootList.length === 1) {
             layerSort(me, 'canvasLayer')
+            backBT.classList.remove('greaterone');
             backToInit()
         }
       

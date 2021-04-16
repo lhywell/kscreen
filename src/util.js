@@ -19,7 +19,7 @@ export function domType(dom) {
 }
 
 export function hasClass (obj, cls) {
-    return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
+    return obj.classList.contains(cls);
 }
 
 export function addClass(obj, cls) {

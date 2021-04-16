@@ -9,6 +9,7 @@ export default function activeToolbarItem (obj) {
 
     if (obj) {
         addClass(obj, 'kssToolbarActiveItemBT')
+
         document.getElementById('kssRectangleCanvas').style.cursor = 'crosshair'
     } else {
         document.getElementById('kssRectangleCanvas').style.cursor = 'move'

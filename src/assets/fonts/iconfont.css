@@ -33,6 +33,11 @@
 
 .iconundo:before {
   content: "\e644";
+  color: #a8a5a0;
+}
+
+.greaterone:before {
+  color: #fff;
 }
 
 .iconcircle:before {
@@ -45,6 +50,7 @@
 
 .iconclose:before {
   content: "\e63e";
+  color: #e1483b;
 }
 
 .icondownload1:before {
@@ -53,5 +59,6 @@
 
 .iconcheck:before {
   content: "\e63c";
+  color: #54b436;
 }
 

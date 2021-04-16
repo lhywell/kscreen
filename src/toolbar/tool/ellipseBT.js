@@ -4,13 +4,20 @@ import makeSnapShoot from '../makeSnapShoot'
 import img from '../../assets/imgs/ellipse.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
+import language from '../../common/language'
 
 export default function ellipseBT(me) {
   let ellipseBT = document.createElement('span')
   ellipseBT.id = 'kssArrowBT'
   ellipseBT.className = 'iconfont iconcircle kssToolbarItemBT'
-  ellipseBT.title = '椭圆工具'
-
+  
+  let lan = language()
+  if(lan === 'zh'){
+      ellipseBT.title = '插入椭圆'
+  }else{
+      ellipseBT.title = 'Insert Ellipse'
+  }
+    
   ellipseBT.addEventListener('click', function() {
     me.isEdit = true
 

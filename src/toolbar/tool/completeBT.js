@@ -3,13 +3,20 @@ import drawMiddleImage from '../middleImage/drawMiddleImage'
 import copy from '../copy'
 import download from '../download'
 import endAndClear from '../endAndClear'
+import language from '../../common/language'
 
 export default function completeBT (me) {
     let completeBT = document.createElement('span')
     completeBT.id = 'kssCompleteBT'
     completeBT.className = 'iconfont iconcheck kssToolbarItemBT'
-    completeBT.title = '完成截图'
-
+    
+    let lan = language()
+    if(lan === 'zh'){
+        completeBT.title = '完成截图'
+    }else{
+        completeBT.title = 'Finish'
+    }
+    
     completeBT.addEventListener('click', async function () {
         me.isEdit = true
         

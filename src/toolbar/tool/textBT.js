@@ -3,13 +3,20 @@ import makeSnapShoot from '../makeSnapShoot'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
 import img from '../../assets/imgs/text.png'
+import language from '../../common/language'
 
 export default function textBT (me) {
     let textBT = document.createElement('span')
     textBT.id = 'kssTextBT'
     textBT.className = 'iconfont icont kssToolbarItemBT'
-    textBT.title = '字体工具'
-
+    
+    let lan = language()
+    if(lan === 'zh'){
+      textBT.title = '插入文字'
+    }else{
+      textBT.title = 'Insert Text'
+    }
+    
     textBT.addEventListener('click', function () {
         me.isEdit = true
         

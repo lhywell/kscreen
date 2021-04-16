@@ -4,12 +4,19 @@ import makeSnapShoot from '../makeSnapShoot'
 import img from '../../assets/imgs/rect.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
+import language from '../../common/language'
 
 export default function rectBT (me) {
     let rectBT = document.createElement('span')
     rectBT.id = 'kssRectBT'
     rectBT.className = 'iconfont iconrectangle kssToolbarItemBT'
-    rectBT.title = '方形工具'
+    
+    let lan = language()
+    if(lan === 'zh'){
+      rectBT.title = '插入矩形'
+    }else{
+      rectBT.title = 'Insert Rectangle'
+    }
 
     rectBT.addEventListener('click', function () {
         me.isEdit = true

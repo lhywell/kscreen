@@ -5,13 +5,20 @@ import makeSnapShoot from '../makeSnapShoot'
 import img from '../../assets/imgs/arrow.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
+import language from '../../common/language'
 
 export default function arrowBT (me) {
     let arrowBT = document.createElement('span')
     arrowBT.id = 'kssArrowBT'
     arrowBT.className = 'iconfont iconarrow-top-right kssToolbarItemBT'
-    arrowBT.title = '箭头工具'
-  
+    
+    let lan = language()
+    if(lan === 'zh'){
+        arrowBT.title = '插入箭头'
+    }else{
+        arrowBT.title = 'Insert Arrow'
+    }
+    
     arrowBT.addEventListener('click', function () {
         me.isEdit = true
         

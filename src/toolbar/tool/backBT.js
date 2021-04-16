@@ -3,12 +3,18 @@ import backToPreImg from '../backToPreImg'
 import img from '../../assets/imgs/back.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
+import language from '../../common/language'
 
 export default function backBT (me) {
     let backBT = document.createElement('span')
     backBT.id = 'kssbackeBT'
     backBT.className = 'iconfont iconundo kssToolbarItemBT'
-    backBT.title = '后退'
+    let lan = language()
+    if(lan === 'zh'){
+        backBT.title = '撤销'
+    }else{
+        backBT.title = 'Undo'
+    }
 
     backBT.addEventListener('click', function () {
         if (me.snapshootList.length > 1) {

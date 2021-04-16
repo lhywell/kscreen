@@ -3,13 +3,20 @@ import makeSnapShoot from '../makeSnapShoot'
 import img from '../../assets/imgs/draw.png'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
+import language from '../../common/language'
 
 export default function drawLineBT (me) {
     let drawLineBT = document.createElement('span')
     drawLineBT.id = 'kssDrawLineBT'
     drawLineBT.className = 'iconfont iconbrush kssToolbarItemBT'
-    drawLineBT.title = '画刷工具'
-
+    
+    let lan = language()
+    if(lan === 'zh'){
+        drawLineBT.title = '插入画笔'
+    }else{
+        drawLineBT.title = 'Brush'
+    }
+    
     drawLineBT.addEventListener('click', function () {
         me.isEdit = true
         

@@ -13,14 +13,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kejiacheng/kss.git"
+    "url": "git@github.com:lhywell/kscreen.git"
   },
-  "author": "",
+  "keywords": [
+    "kscreen",
+    "kscreenshot",
+    "weixin",
+    "screencapture",
+    "screenshot"
+  ],
+  "author": "lihuiyin128@163.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kejiacheng/kss/issues"
+    "url": "https://github.com/lhywell/kscreen/issues"
   },
-  "homepage": "https://github.com/kejiacheng/kss#readme",
+  "homepage": "https://github.com/lhywell/kscreen",
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",

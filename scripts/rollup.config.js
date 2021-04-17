@@ -79,16 +79,17 @@ export default {
             VERSION: JSON.stringify(version),
             ENV: JSON.stringify(process.env.NODE_ENV || 'development')
         }),
+        livereload(),
         // 开启服务
         ENV == 'development' ?
         serve({
             open: true, // 是否打开浏览器
-            contentBase: './', // 入口html的文件位置
+            openPage: '/examples/index.html',
+            contentBase: '', // 入口html的文件位置
             historyApiFallback: true, // Set to true to return index.html instead of 404
             host: 'localhost',
             port: 3003
         }) :
-        '',
-        livereload()
+        ''
     ],
 };

@@ -1,4 +1,4 @@
-import { css, typeChecking } from '../util'
+import { css, typeChecking } from '../common/util'
 
 import completeBT from './tool/completeBT'
 import quitBT from './tool/quitBT'

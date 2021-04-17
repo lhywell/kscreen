@@ -1,4 +1,4 @@
-import { css, remove } from '../../util'
+import { css, remove } from '../../common/util'
 import drawMiddleImage from '../middleImage/drawMiddleImage'
 import endAndClear from '../endAndClear'
 import language from '../../common/language'

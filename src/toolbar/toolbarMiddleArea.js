@@ -1,4 +1,4 @@
-import { css } from '../util'
+import { css } from '../common/util'
 import colorBoard from './colorBoard'
 import setLineWidth from './setLineWidth'
 

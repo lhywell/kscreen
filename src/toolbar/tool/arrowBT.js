@@ -1,4 +1,4 @@
-import { css, remove } from '../../util'
+import { css, remove } from '../../common/util'
 import arrow from '../arrow'
 import backToPreImg from '../backToPreImg'
 import makeSnapShoot from '../makeSnapShoot'

@@ -1,4 +1,4 @@
-import { css } from '../util'
+import { css } from '../common/util'
 
 const colorList = ['#000', '#808080', '#800000', '#f7883a', '#308430', '#385ad3', '#800080', '#009999', '#fff', '#c0c0c0', '#fb3838', '#ffff00', '#99cc00', '#3894e4', '#f31af3', '#16dcdc']
 

@@ -1,8 +1,8 @@
 import { css } from './util'
-import drawMiddleImage from './toolbar/middleImage/drawMiddleImage'
-import clearMiddleImage from './toolbar/middleImage/clearMiddleImage'
 import backRightClient from './backRightClient'
-import toolbarPosition from './toolbar/toolbarPosition'
+import drawMiddleImage from '../toolbar/middleImage/drawMiddleImage'
+import clearMiddleImage from '../toolbar/middleImage/clearMiddleImage'
+import toolbarPosition from '../toolbar/toolbarPosition'
 
 export default function createDragDom(dom, dotSize, lineSize, me) {
     const lineList = [

@@ -1,4 +1,4 @@
-import { css, remove } from '../../util'
+import { css, remove } from '../../common/util'
 import makeSnapShoot from '../makeSnapShoot'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'

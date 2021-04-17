@@ -1,4 +1,4 @@
-import { computed } from '../util'
+import { computed } from '../common/util'
 
 export default function arrow (startPos, endPos, triangle, me) {
     let startX = startPos.x * me.scale

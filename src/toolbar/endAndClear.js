@@ -1,4 +1,4 @@
-import { remove, removeClass } from '../util'
+import { remove, removeClass } from '../common/util'
 
 export default function endAndClear (me) {
     removeClass(document.body, 'kssBody')

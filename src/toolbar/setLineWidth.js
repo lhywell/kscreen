@@ -1,4 +1,4 @@
-import { css } from '../util'
+import { css } from '../common/util'
 
 export default function setLineWidth (me) {
     let setLineWidth = document.createElement('span')

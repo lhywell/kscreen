@@ -1,4 +1,4 @@
-import { addClass, hasClass } from '../util'
+import { addClass, hasClass } from '../common/util'
 
 export default function makeSnapShoot(me) {
   let ctx = me.rectangleCanvas.getContext('2d')

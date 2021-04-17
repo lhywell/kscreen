@@ -1,4 +1,4 @@
-import { css } from '../util'
+import { css } from '../common/util'
 
 export default function toolbarPosition (me, width, height, top, left, toolbar) {
     let clientHeight = document.documentElement.clientHeight

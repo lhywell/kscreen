@@ -1,16 +1,16 @@
 // import {a} from './toolbar.js'
 import html2canvas from './lib/html2canvas.min.js'
-import { css, remove, domType, addClass, typeChecking } from './util'
-import createDragDom from './createDragDom.js'
+import { css, remove, domType, addClass, typeChecking } from './common/util'
+import createDragDom from './common/createDragDom.js'
+import backRightClient from './common/backRightClient'
 import createToolbar from './toolbar/toolbar.js'
 import drawMiddleImage from './toolbar/middleImage/drawMiddleImage'
 import clearMiddleImage from './toolbar/middleImage/clearMiddleImage'
 import endAndClear from './toolbar/endAndClear'
-import backRightClient from './backRightClient'
 import toolbarPosition from './toolbar/toolbarPosition'
 // import cursorImg from './assets/imgs/cursor.ico'
-import './assets/fonts/iconfont.css'
-import './kss.scss'
+import './styles/fonts/iconfont.css'
+import './styles/css/kss.scss'
 
 function initLineWidth (initLine) {
     if (isNaN(initLine)) {

@@ -1,4 +1,4 @@
-import { css } from '../../util'
+import { css } from '../../common/util'
 import language from '../../common/language'
 
 export default function colorBT (me) {

@@ -1,4 +1,4 @@
-import { addClass, removeClass } from '../util'
+import { addClass, removeClass } from '../common/util'
 
 export default function activeToolbarItem (obj) {
     let kssToolbarItemBT = document.getElementsByClassName('kssToolbarItemBT')

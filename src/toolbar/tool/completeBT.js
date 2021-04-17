@@ -1,4 +1,4 @@
-import { css, remove, typeChecking } from '../../util'
+import { css, remove, typeChecking } from '../../common/util'
 import drawMiddleImage from '../middleImage/drawMiddleImage'
 import copy from '../copy'
 import download from '../download'

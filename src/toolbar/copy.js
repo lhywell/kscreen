@@ -1,4 +1,4 @@
-import {css, remove, typeChecking} from '../util'
+import {css, remove, typeChecking} from '../common/util'
 
 export default function copy (me, url) {
     let imgWrapper = document.createElement('span')

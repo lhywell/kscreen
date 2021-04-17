@@ -12,7 +12,7 @@ import toolbarPosition from './toolbar/toolbarPosition'
 import './styles/fonts/iconfont.css'
 import './styles/css/kss.scss'
 
-function initLineWidth (initLine) {
+function initLineWidth(initLine) {
     if (isNaN(initLine)) {
         return 10
     } else {
@@ -26,15 +26,8 @@ function initLineWidth (initLine) {
     }
 }
 
-let kss = (function () {
-    let instance
-    
-    //单例模式
-    let kss = function (options) {
-        if (instance) {
-            return instance
-        }
-
+export default class kss {
+    constructor(options) {
         this.kss = null
         this.style = null
         this.kssScreenShotWrapper = null
@@ -49,10 +42,10 @@ let kss = (function () {
         //快照组
         this.snapshootList = []
         /*
-        * 1: 点下左键，开始状态
-        * 2: 鼠标移动，进行状态
-        * 3: 放开左键，结束状态
-        * */
+         * 1: 点下左键，开始状态
+         * 2: 鼠标移动，进行状态
+         * 3: 放开左键，结束状态
+         * */
         this.drawingStatus = null
         this.currentToolType = null
         this.imgBase64 = null
@@ -71,7 +64,7 @@ let kss = (function () {
         this.toolbarMarginTop = 10
         this.toolbarColor = '#fb3838'
         this.toolbarLineWidth = typeChecking(options.toolShow) === '[object Object]' ? initLineWidth(options.toolShow.drawLine) : 10
-        
+
 
         //工具栏事件
         this.toolmousedown = null
@@ -87,7 +80,7 @@ let kss = (function () {
         this.endCB = options.endCB
         //撤销回调
         this.cancelCB = options.cancelCB
-        
+
         this.startDrawDown = (e) => {
             const that = this
             document.addEventListener('mouseup', that.cancelDrawingStatus)
@@ -96,12 +89,12 @@ let kss = (function () {
             if (e.button !== 0) {
                 return
             }
-    
+
             if (that.drawingStatus !== null) {
                 return
             }
             that.drawingStatus = 1
-    
+
             that.startX = e.clientX
             that.startY = e.clientY
             //移除并添加
@@ -115,7 +108,7 @@ let kss = (function () {
 
             kssScreenShotWrapper.appendChild(kssTextLayer)
             document.body.appendChild(kssScreenShotWrapper)
-          
+
             document.addEventListener('mousemove', that.drawing)
             document.addEventListener('mouseup', that.endDraw)
         }
@@ -123,11 +116,11 @@ let kss = (function () {
         this.drawing = (e) => {
             const that = this
             that.drawingStatus = 2
-    
+
             let client = backRightClient(e)
             let clientX = client[0]
             let clientY = client[1]
-            
+
             css(that.kssScreenShotWrapper, {
                 height: Math.abs(clientY - that.startY) + 'px',
                 width: Math.abs(clientX - that.startX) + 'px',
@@ -142,7 +135,7 @@ let kss = (function () {
             }
             const that = this
             that.drawingStatus = 3
-          
+
             if (that.startX === e.clientX && that.startY === e.clientY) {
                 let clientHeight = document.documentElement.clientHeight
                 let clientWidth = document.documentElement.clientWidth
@@ -167,13 +160,13 @@ let kss = (function () {
                 that.startY = Math.min(that.startY, clientY)
             }
             document.removeEventListener('mousemove', that.drawing)
-    
+
             let canvas = document.createElement('canvas')
             canvas.id = 'kssRectangleCanvas'
 
             that.kssScreenShotWrapper.appendChild(canvas)
             that.rectangleCanvas = canvas
-            canvas.addEventListener('mousedown', function (event) {
+            canvas.addEventListener('mousedown', function(event) {
                 if (that.isEdit || event.button === 2) {
                     return
                 }
@@ -185,10 +178,11 @@ let kss = (function () {
                 //最后左上角的top和left
                 let top
                 let left
-                function canvasMoveEvent (e) {
+
+                function canvasMoveEvent(e) {
                     let clientHeight = document.documentElement.clientHeight
                     let clientWidth = document.documentElement.clientWidth
-              
+
                     top = that.startY + e.clientY - startY
 
                     if (that.startY + e.clientY - startY + that.height > clientHeight) {
@@ -215,8 +209,8 @@ let kss = (function () {
                     })
                     toolbarPosition(that, that.width, that.height, top, left, that.toolbar)
                 }
-    
-                function canvasUpEvent (e) {
+
+                function canvasUpEvent(e) {
                     if (top === undefined) {
                         top = that.startY
                     }
@@ -233,7 +227,7 @@ let kss = (function () {
             })
             that.kss.removeEventListener('mousedown', that.startDrawDown)
             document.removeEventListener('mouseup', that.endDraw)
-    
+
             createDragDom(
                 that.kssScreenShotWrapper,
                 that.dotSize,
@@ -242,7 +236,7 @@ let kss = (function () {
             )
             let img = document.createElement('img')
             img.id = 'kssCurrentImgDom'
-   
+
             that.kssScreenShotWrapper.appendChild(img)
             that.currentImgDom = img
             drawMiddleImage(that)
@@ -258,10 +252,10 @@ let kss = (function () {
             if (e.button === 2) {
                 if (that.drawingStatus === null) {
                     document.removeEventListener('mouseup', that.cancelDrawingStatus)
-                    setTimeout(function () {
+                    setTimeout(function() {
                         document.removeEventListener('contextmenu', that.preventContextMenu)
                     }, 0)
-                    
+
                     endAndClear(that)
                     that.cancelCB && that.cancelCB()
                     return
@@ -288,12 +282,11 @@ let kss = (function () {
         }
 
         this.init(options.key, options.immediately)
-        return instance = this
-    }
 
-    kss.prototype.init = function (key, immediately) {
+    }
+    init(key, immediately) {
         const that = this
-   
+
         if (immediately === true) {
             that.start()
             that.end()
@@ -307,26 +300,25 @@ let kss = (function () {
 
         document.addEventListener('keydown', isRightKey.bind(null, key))
 
-        function isRightKey (key, e) {
+        function isRightKey(key, e) {
             if (e.keyCode === key && e.shiftKey && !that.isScreenshot) {
                 that.start()
                 that.end()
             }
-        }     
+        }
     }
-
-    kss.prototype.start = function () {
+    start() {
         const that = this
         if (that.isScreenshot) {
             return
         }
         that.isScreenshot = true
-        html2canvas(document.body, {useCORS:true, scrollY:200})
+        html2canvas(document.body, { useCORS: true, scrollY: 200 })
             .then((canvas) => {
                 that.kss = canvas
                 that.scrollTop = document.documentElement.scrollTop
                 canvas.id = 'kss'
-                    
+
                 document.body.appendChild(canvas)
 
                 addClass(document.body, 'kssBody')
@@ -337,11 +329,10 @@ let kss = (function () {
                 canvas.addEventListener('mousedown', that.startDrawDown)
             })
     }
-
-    kss.prototype.end = function () {
+    end() {
         const that = this
-     
-        that.endScreenShot = function (e) {
+
+        that.endScreenShot = function(e) {
             if (e.keyCode === 27) {
                 endAndClear(that)
                 that.cancelCB && that.cancelCB()
@@ -350,8 +341,4 @@ let kss = (function () {
 
         document.addEventListener('keydown', that.endScreenShot)
     }
-
-    return kss
-})()
-
-export default kss
+}

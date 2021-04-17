@@ -19,10 +19,14 @@ export default function endAndClear (me) {
     me.toolmousedown = null
     me.toolmousemove = null
     me.toolmouseup = null
+
     document.removeEventListener('keydown', me.endScreenShot)
     setTimeout(function () {
         document.removeEventListener('contextmenu', me.preventContextMenu)
     }, 0)
-    document.removeEventListener('keydown', me.endScreenShot)
     document.removeEventListener('mouseup', me.cancelDrawingStatus)
+
+    me.endScreenShot = null;
+    me.preventContextMenu = null;
+    me.cancelDrawingStatus = null;
 }

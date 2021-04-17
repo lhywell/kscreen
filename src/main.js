@@ -81,37 +81,7 @@ export default class kscreen {
         //撤销回调
         this.cancelCB = options.cancelCB
 
-        this.startDrawDown = (e) => {
-            const that = this
-            document.addEventListener('mouseup', that.cancelDrawingStatus)
-            document.addEventListener('contextmenu', that.preventContextMenu)
-            //当不是鼠标左键时立即返回
-            if (e.button !== 0) {
-                return
-            }
 
-            if (that.drawingStatus !== null) {
-                return
-            }
-            that.drawingStatus = 1
-
-            that.startX = e.clientX
-            that.startY = e.clientY
-            //移除并添加
-            remove(document.getElementById('kssScreenShotWrapper'))
-            let kssScreenShotWrapper = document.createElement('div')
-            kssScreenShotWrapper.id = 'kssScreenShotWrapper'
-            that.kssScreenShotWrapper = kssScreenShotWrapper
-            let kssTextLayer = document.createElement('div')
-            kssTextLayer.id = 'kssTextLayer'
-            that.kssTextLayer = kssTextLayer
-
-            kssScreenShotWrapper.appendChild(kssTextLayer)
-            document.body.appendChild(kssScreenShotWrapper)
-
-            document.addEventListener('mousemove', that.drawing)
-            document.addEventListener('mouseup', that.endDraw)
-        }
 
         this.drawing = (e) => {
             const that = this
@@ -243,53 +213,22 @@ export default class kscreen {
             that.toolbar = createToolbar(that)
         }
 
-        this.preventContextMenu = (e) => {
-            e.preventDefault()
-        }
-
-        this.cancelDrawingStatus = (e) => {
-            const that = this
-            if (e.button === 2) {
-                if (that.drawingStatus === null) {
-                    document.removeEventListener('mouseup', that.cancelDrawingStatus)
-                    setTimeout(function() {
-                        document.removeEventListener('contextmenu', that.preventContextMenu)
-                    }, 0)
-
-                    endAndClear(that)
-                    that.cancelCB && that.cancelCB()
-                    return
-                }
-                remove(that.kssScreenShotWrapper)
-                that.kssScreenShotWrapper = null
-                that.kssTextLayer = null
-                that.rectangleCanvas = null
-                that.drawingStatus = null
-                that.isEdit = false
-                that.snapshootList = []
-                that.currentToolType = null
-                that.toolmousedown = null
-                that.toolmousemove = null
-                that.toolmouseup = null
-                that.kss.addEventListener('mousedown', that.startDrawDown)
-            }
-        }
-        this.startScreenShot = () => {
-            this.start()
-        }
-        this.endScreenShot = () => {
-            endAndClear(this)
-        }
+        // this.startScreenShot = () => {
+        //     this.start()
+        // }
+        // this.endScreenShot = () => {
+        //     endAndClear(this)
+        // }
 
         this.init(options.key, options.immediately)
 
     }
+
     init(key, immediately) {
-        const that = this
 
         if (immediately === true) {
-            that.start()
-            that.end()
+            this.start()
+            this.end()
         }
 
         if (key === undefined) {
@@ -298,47 +237,88 @@ export default class kscreen {
             return
         }
 
-        document.addEventListener('keydown', isRightKey.bind(null, key))
+        document.addEventListener('keydown', this.isRightKey.bind(this, key))
 
-        function isRightKey(key, e) {
-            if (e.keyCode === key && e.shiftKey && !that.isScreenshot) {
-                that.start()
-                that.end()
-            }
+    }
+    isRightKey(key, e) {
+        if (e.keyCode === key && e.shiftKey && !this.isScreenshot) {
+            this.start()
+            this.end()
         }
     }
     start() {
-        const that = this
-        if (that.isScreenshot) {
+        if (this.isScreenshot) {
             return
         }
-        that.isScreenshot = true
+        this.isScreenshot = true
         html2canvas(document.body, { useCORS: true, scrollY: 200 })
             .then((canvas) => {
-                that.kss = canvas
-                that.scrollTop = document.documentElement.scrollTop
+                this.kss = canvas
                 canvas.id = 'kss'
+                this.scrollTop = document.documentElement.scrollTop
 
                 document.body.appendChild(canvas)
 
                 addClass(document.body, 'kssBody')
                 css(canvas, {
-                    top: `-${that.scrollTop}px`
+                    top: `-${this.scrollTop}px`
                 })
 
-                canvas.addEventListener('mousedown', that.startDrawDown)
+                canvas.addEventListener('mousedown', this.startDrawDown.bind(this))
             })
     }
     end() {
-        const that = this
-
-        that.endScreenShot = function(e) {
+        this.endScreenShot = (e) => {
+            // 按key: "Escape"
             if (e.keyCode === 27) {
-                endAndClear(that)
-                that.cancelCB && that.cancelCB()
+                endAndClear(this)
+                this.cancelCB && this.cancelCB()
             }
         }
 
-        document.addEventListener('keydown', that.endScreenShot)
+        this.cancelDrawingStatus = (e) => {
+            // 按鼠标右键
+            if (e.button === 2) {
+                endAndClear(this)
+                this.cancelCB && this.cancelCB()
+            }
+        }
+
+        this.preventContextMenu = (e) => {
+            e.preventDefault()
+        }
+
+        document.addEventListener('keydown', this.endScreenShot)
+        document.addEventListener('mouseup', this.cancelDrawingStatus)
+        document.addEventListener('contextmenu', this.preventContextMenu)
+    }
+    startDrawDown(e) {
+        //当不是鼠标左键时立即返回
+        if (e.button !== 0) {
+            return
+        }
+
+        if (this.drawingStatus !== null) {
+            return
+        }
+        this.drawingStatus = 1
+
+        this.startX = e.clientX
+        this.startY = e.clientY
+        
+        //移除并添加
+        remove(document.getElementById('kssScreenShotWrapper'))
+        let kssScreenShotWrapper = document.createElement('div')
+        kssScreenShotWrapper.id = 'kssScreenShotWrapper'
+        this.kssScreenShotWrapper = kssScreenShotWrapper
+        let kssTextLayer = document.createElement('div')
+        kssTextLayer.id = 'kssTextLayer'
+        this.kssTextLayer = kssTextLayer
+
+        kssScreenShotWrapper.appendChild(kssTextLayer)
+        document.body.appendChild(kssScreenShotWrapper)
+
+        document.addEventListener('mousemove', this.drawing)
+        document.addEventListener('mouseup', this.endDraw)
     }
 }

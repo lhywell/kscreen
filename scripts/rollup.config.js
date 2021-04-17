@@ -43,9 +43,9 @@ const processSass = function(context, payload) {
 };
 
 export default {
-    input: rlv('./src/kss.js'),
+    input: rlv('./src/main.js'),
     output: {
-        file: process.env.NODE_ENV === 'development' ? './dist/kss.dev.js' : './dist/kss.js',
+        file: process.env.NODE_ENV === 'development' ? './dist/kscreen.dev.js' : './dist/kscreen.js',
         format: 'umd',
         sourcemap: process.env.NODE_ENV === 'development' ? true : false,
         name: 'kscreen',

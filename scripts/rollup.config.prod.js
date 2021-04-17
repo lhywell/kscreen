@@ -19,12 +19,12 @@ import replace from 'rollup-plugin-replace'
 import { terser } from 'rollup-plugin-terser'
 
 export default {
-    input: rlv('./src/kss.js'),
+    input: rlv('./src/main.js'),
     output: {
-        file: './dist/kss.min.js',
+        file: './dist/kscreen.min.js',
         format: 'umd',
         sourcemap: false,
-        name: 'kss',
+        name: 'kscreen',
         intro: 'var global = typeof self !== undefined ? self : this;'
     },
     watch: {

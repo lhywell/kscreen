@@ -26,7 +26,7 @@ function initLineWidth(initLine) {
     }
 }
 
-export default class kss {
+export default class kscreen {
     constructor(options) {
         this.kss = null
         this.style = null

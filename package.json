@@ -4,8 +4,7 @@
   "description": "",
   "main": "dist/kss.js",
   "scripts": {
-    "start": "node scripts/openServer.js",
-    "dev": "npm-run-all --parallel start dev:config",
+    "dev": "npm run dev:config",
     "dev:config": "rollup -w -c scripts/rollup.config.js --environment NODE_ENV:development",
     "dist:dev": "rollup -c scripts/rollup.config.js --environment NODE_ENV:production",
     "dist:prod": "rollup -c scripts/rollup.config.prod.js --environment NODE_ENV:production",

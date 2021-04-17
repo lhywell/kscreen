@@ -1,6 +1,6 @@
 // import {a} from './toolbar.js'
 import html2canvas from './lib/html2canvas.min.js'
-import { css, remove, domType, addClass, typeChecking } from './common/util'
+import { css, remove, addClass, typeChecking } from './common/util'
 import createDragDom from './common/createDragDom.js'
 import backRightClient from './common/backRightClient'
 import createToolbar from './toolbar/toolbar.js'

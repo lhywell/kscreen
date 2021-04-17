@@ -10,7 +10,7 @@ import endAndClear from './toolbar/endAndClear'
 import toolbarPosition from './toolbar/toolbarPosition'
 // import cursorImg from './assets/imgs/cursor.ico'
 import './styles/fonts/iconfont.css'
-import './styles/css/kss.scss'
+import './styles/css/kscreen.scss'
 
 function initLineWidth(initLine) {
     if (isNaN(initLine)) {

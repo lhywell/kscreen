@@ -1,8 +1,11 @@
 import { remove, removeClass } from '../common/util'
 
-export default function endAndClear (me) {
+export default function endAndClear(me) {
+    let kssBody = document.querySelector('.kssBody')
+    kssBody.removeAttribute('style');
+
     removeClass(document.body, 'kssBody')
-    
+
     me.kss && remove(me.kss)
     me.kssScreenShotWrapper && remove(me.kssScreenShotWrapper)
     me.style && remove(me.style)
@@ -21,7 +24,7 @@ export default function endAndClear (me) {
     me.toolmouseup = null
 
     document.removeEventListener('keydown', me.endScreenShot)
-    setTimeout(function () {
+    setTimeout(function() {
         document.removeEventListener('contextmenu', me.preventContextMenu)
     }, 0)
     document.removeEventListener('mouseup', me.cancelDrawingStatus)

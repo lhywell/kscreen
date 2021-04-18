@@ -81,8 +81,6 @@ export default class kscreen {
         //撤销回调
         this.cancelCB = options.cancelCB
 
-
-
         this.drawing = (e) => {
             const that = this
             that.drawingStatus = 2
@@ -197,6 +195,7 @@ export default class kscreen {
                 }
             })
             that.kss.removeEventListener('mousedown', that.startDrawDown)
+            that.kss.removeEventListener('mouseup', that.drawDownComplete)
             document.removeEventListener('mouseup', that.endDraw)
 
             createDragDom(
@@ -267,6 +266,7 @@ export default class kscreen {
                 })
 
                 canvas.addEventListener('mousedown', this.startDrawDown.bind(this))
+                canvas.addEventListener('mouseup', this.drawDownComplete)
             })
     }
     end() {
@@ -322,6 +322,10 @@ export default class kscreen {
 
         document.addEventListener('mousemove', this.drawing)
         document.addEventListener('mouseup', this.endDraw)
+    }
+    drawDownComplete() {
+        let kssBody = document.querySelector('.kssBody')
+        kssBody.style.cursor = 'auto';
     }
     copyClipboard(base64Image, fileTitle) {
         let base64 = base64Image.split(',')[1];

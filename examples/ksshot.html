@@ -30,7 +30,8 @@
 
 <body>
     <div id="app">
-        <h1>按下shift + A 截屏</h1>
+        <h1>按下shift + A 截屏 或者按下方按钮截屏</h1>
+        <button id="screenButton">截屏</button>
         <div id="container"></div>
     </div>
 </body>
@@ -62,7 +63,7 @@ option && myChart.setOption(option);
 
 
 
-new kscreen({
+let ks = new kscreen({
     key: 65,
     download: function(base64Image) {
         console.log(base64Image)
@@ -76,6 +77,11 @@ new kscreen({
         console.log('canlel')
     }
 })
+
+// 按钮截屏
+screenButton.onclick = function() {
+    ks.startScreenShot();
+}
 </script>
 
 </html>

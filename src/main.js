@@ -213,12 +213,7 @@ export default class kscreen {
             that.toolbar = createToolbar(that)
         }
 
-        // this.startScreenShot = () => {
-        //     this.start()
-        // }
-        // this.endScreenShot = () => {
-        //     endAndClear(this)
-        // }
+
 
         this.init(options.key, options.immediately)
 
@@ -239,6 +234,15 @@ export default class kscreen {
 
         document.addEventListener('keydown', this.isRightKey.bind(this, key))
 
+    }
+    startScreenShot() {
+        if (!this.isScreenshot) {
+            this.start()
+            this.end()
+        }
+    }
+    endScreenShot() {
+        endAndClear(this)
     }
     isRightKey(key, e) {
         if (e.keyCode === key && e.shiftKey && !this.isScreenshot) {

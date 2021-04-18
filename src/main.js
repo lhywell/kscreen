@@ -60,7 +60,7 @@ export default class kscreen {
         this.toolShow = options.toolShow
         //工具栏样式
         this.toolbarWidth = null
-        this.toolbarHeight = 30
+        this.toolbarHeight = 40
         this.toolbarMarginTop = 10
         this.toolbarColor = '#fb3838'
         this.toolbarLineWidth = typeChecking(options.toolShow) === '[object Object]' ? initLineWidth(options.toolShow.drawLine) : 10

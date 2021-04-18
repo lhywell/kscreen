@@ -131,6 +131,7 @@ export default class kscreen {
             }
             document.removeEventListener('mousemove', that.drawing)
 
+            // 画版
             let canvas = document.createElement('canvas')
             canvas.id = 'kssRectangleCanvas'
 
@@ -253,6 +254,7 @@ export default class kscreen {
         this.isScreenshot = true
         html2canvas(document.body, { useCORS: true, scrollY: 200 })
             .then((canvas) => {
+                // 遮罩
                 this.kss = canvas
                 canvas.id = 'kss'
                 this.scrollTop = document.documentElement.scrollTop
@@ -305,8 +307,8 @@ export default class kscreen {
 
         this.startX = e.clientX
         this.startY = e.clientY
-        
-        //移除并添加
+
+        //移除并添加dom
         remove(document.getElementById('kssScreenShotWrapper'))
         let kssScreenShotWrapper = document.createElement('div')
         kssScreenShotWrapper.id = 'kssScreenShotWrapper'

@@ -30,6 +30,7 @@
 
 <body>
     <div id="app">
+        <h1>按下shift + A 截屏</h1>
         <div id="container"></div>
     </div>
 </body>
@@ -37,6 +38,7 @@
 <script src="https://lib.baomitu.com/echarts/5.0.2/echarts.common.js"></script>
 <!-- 引入kscreen -->
 <script src="../dist/kscreen.dev.js"></script>
+
 <script>
 var chartDom = document.getElementById('container');
 
@@ -115,9 +117,9 @@ new kscreen({
             }
         })
     },
-    // cancelCB:()=>{
-    //     console.log('canlel')
-    // }
+    cancelCB:()=>{
+        console.log('canlel')
+    }
 })
 </script>
 

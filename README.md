@@ -60,11 +60,12 @@ new kscreen(
     <td>noob</td>
   </tr>  
   <tr>
-    <td>needDownload</td>
-    <td>是否下载截图后的图片</td>
-    <td>bool</td>
-    <td>false</td>
-  </tr> 
+  <tr>
+    <td>download</td>
+    <td>保存截图后的回调函数</td>
+    <td>Function</td>
+    <td>noob</td>
+  </tr>
   <tr>
     <td>endCB</td>
     <td>成功结束截图后的回调函数</td>

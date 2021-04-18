@@ -1,6 +1,6 @@
 // import {a} from './toolbar.js'
 import html2canvas from './lib/html2canvas.min.js'
-import { css, remove, addClass, typeChecking } from './common/util'
+import { css, remove, addClass, typeChecking, base64ToBlob } from './common/util'
 import createDragDom from './common/createDragDom.js'
 import backRightClient from './common/backRightClient'
 import createToolbar from './toolbar/toolbar.js'
@@ -322,5 +322,33 @@ export default class kscreen {
 
         document.addEventListener('mousemove', this.drawing)
         document.addEventListener('mouseup', this.endDraw)
+    }
+    copyClipboard(base64Image, fileTitle) {
+        let base64 = base64Image.split(',')[1];
+
+        let result = base64ToBlob({ b64data: base64, contentType: 'image/png', sliceSize: 512, fileTitle: '' })
+        // 转后后的blob对象
+        try {
+            // https://w3c.github.io/clipboard-apis/
+            let clipboard = navigator.clipboard;
+            if (clipboard == undefined) {
+                console.log('clipboard is undefined');
+            } else {
+                let data = [new ClipboardItem({
+                    [result.type]: result
+                })];
+
+                navigator.clipboard.write(data).then(function() {
+                    console.log("添加到剪贴板成功");
+                }, function() {
+                    console.error("添加到剪贴板失败");
+                });
+            }
+
+            return result;
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

@@ -587,62 +587,11 @@ function seletedSub(item) {
 }
 
 
-
-// 截屏功能
-function base64ToBlob({ b64data = '', contentType = '', sliceSize = 512 } = {}) {
-    return new Promise((resolve, reject) => {
-        // 使用 atob() 方法将数据解码
-        let byteCharacters = atob(b64data);
-        let byteArrays = [];
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            let slice = byteCharacters.slice(offset, offset + sliceSize);
-            let byteNumbers = [];
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers.push(slice.charCodeAt(i));
-            }
-            // 8 位无符号整数值的类型化数组。内容将初始化为 0。
-            // 如果无法分配请求数目的字节，则将引发异常。
-            byteArrays.push(new Uint8Array(byteNumbers));
-        }
-        let result = new Blob(byteArrays, {
-            type: contentType
-        })
-        result = Object.assign(result, {
-            // 这里一定要处理一下 URL.createObjectURL
-            preview: URL.createObjectURL(result),
-            name: `temp.png`
-        });
-        resolve(result)
-    })
-}
-
-//https://www.npmjs.com/package/kscreenshot
-//65指键盘中的A
 new kscreen({
     key: 65,
     endCB: (base64Image) => {
-        let base64 = base64Image.split(',')[1];
-        base64ToBlob({ b64data: base64, contentType: 'image/png' }).then(res => {
-            // 转后后的blob对象
-            try {
-                // https://w3c.github.io/clipboard-apis/
-                let clipboard = navigator.clipboard;
-                if (clipboard == undefined) {
-                    console.log('clipboard is undefined');
-                } else {
-                    let data = [new ClipboardItem({ 'image/png': res })];
-
-                    navigator.clipboard.write(data).then(function() {
-                        console.log("Copied to clipboard successfully!");
-                    }, function() {
-                        console.error("Unable to write to clipboard. :-(");
-                    });
-                }
-
-            } catch (error) {
-                console.error(error);
-            }
-        })
+        let title = Date.now().toString()
+        let r = this.copyClipboard(base64Image, title);
     },
     // cancelCB:()=>{
     //     console.log('canlel')

@@ -5,25 +5,25 @@ import download from '../download'
 import endAndClear from '../endAndClear'
 import language from '../../common/language'
 
-export default function completeBT (me) {
+export default function completeBT(me) {
     let completeBT = document.createElement('span')
     completeBT.id = 'kssCompleteBT'
     completeBT.className = 'iconfont iconcheck kssToolbarItemBT'
-    
+
     let lan = language()
-    if(lan === 'zh'){
+    if (lan === 'zh') {
         completeBT.title = '完成截图'
-    }else{
+    } else {
         completeBT.title = 'Finish'
     }
-    
-    completeBT.addEventListener('click', async function () {
+
+    completeBT.addEventListener('click', async function() {
         me.isEdit = true
-        
+
         const lastShot = me.snapshootList[me.snapshootList.length - 1]
         copy(me, lastShot)
         me.needDownload === true && (await download(me))
-        typeChecking(me.endCB) === '[object Function]' && me.endCB(lastShot)
+        typeChecking(me.endCB) === '[object Function]' && me.endCB.call(me, lastShot)
         endAndClear(me)
     })
 

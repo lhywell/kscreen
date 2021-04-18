@@ -1,8 +1,8 @@
 {
   "name": "kscreen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "dist/kss.js",
+  "main": "dist/kscreen.js",
   "scripts": {
     "dev": "npm run dev:config",
     "dev:config": "rollup -w -c scripts/rollup.config.js --environment NODE_ENV:development",

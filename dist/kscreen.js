@@ -18,6 +18,64 @@
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
 	}
 
+	var defineProperty = createCommonjsModule(function (module) {
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	}
+
+	module.exports = _defineProperty;
+	module.exports["default"] = module.exports, module.exports.__esModule = true;
+	});
+
+	var _defineProperty = unwrapExports(defineProperty);
+
+	var classCallCheck = createCommonjsModule(function (module) {
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	module.exports = _classCallCheck;
+	module.exports["default"] = module.exports, module.exports.__esModule = true;
+	});
+
+	var _classCallCheck = unwrapExports(classCallCheck);
+
+	var createClass = createCommonjsModule(function (module) {
+	function _defineProperties(target, props) {
+	  for (var i = 0; i < props.length; i++) {
+	    var descriptor = props[i];
+	    descriptor.enumerable = descriptor.enumerable || false;
+	    descriptor.configurable = true;
+	    if ("value" in descriptor) descriptor.writable = true;
+	    Object.defineProperty(target, descriptor.key, descriptor);
+	  }
+	}
+
+	function _createClass(Constructor, protoProps, staticProps) {
+	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  return Constructor;
+	}
+
+	module.exports = _createClass;
+	module.exports["default"] = module.exports, module.exports.__esModule = true;
+	});
+
+	var _createClass = unwrapExports(createClass);
+
 	var html2canvas_min = createCommonjsModule(function (module, exports) {
 	  /*!
 	   * html2canvas 1.0.0-alpha.11 <https://html2canvas.hertzen.com>
@@ -5183,6 +5241,9 @@
 	    });
 	  }
 	}
+	function hasClass(obj, cls) {
+	  return obj.classList.contains(cls);
+	}
 	function addClass(obj, cls) {
 	  obj.classList.add(cls);
 	}
@@ -5201,23 +5262,43 @@
 	function typeChecking(val) {
 	  return Object.prototype.toString.call(val);
 	}
+	function base64ToBlob() {
+	  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+	      _ref$b64data = _ref.b64data,
+	      b64data = _ref$b64data === void 0 ? '' : _ref$b64data,
+	      _ref$contentType = _ref.contentType,
+	      contentType = _ref$contentType === void 0 ? '' : _ref$contentType,
+	      _ref$sliceSize = _ref.sliceSize,
+	      sliceSize = _ref$sliceSize === void 0 ? 512 : _ref$sliceSize,
+	      _ref$fileTitle = _ref.fileTitle,
+	      fileTitle = _ref$fileTitle === void 0 ? '' : _ref$fileTitle;
 
-	function drawMiddleImage(me) {
-	  me.rectangleCanvas.width = me.width * me.scale;
-	  me.rectangleCanvas.height = me.height * me.scale;
-	  var ctx = me.rectangleCanvas.getContext('2d');
-	  ctx.drawImage(me.kss, me.startX * me.scale, (me.startY + me.scrollTop) * me.scale, me.width * me.scale, me.height * me.scale, 0, 0, me.width * me.scale, me.height * me.scale);
-	  var dataURL = me.rectangleCanvas.toDataURL('image/png');
-	  me.imgBase64 = dataURL;
-	  me.snapshootList[0] = dataURL;
-	  me.currentImgDom.src = me.imgBase64;
-	}
+	  // 使用 atob() 方法将数据解码
+	  var byteCharacters = atob(b64data);
+	  var byteArrays = [];
 
-	function clearMiddleImage(me) {
-	  me.rectangleCanvas.width = me.width * me.scale;
-	  me.rectangleCanvas.height = me.height * me.scale;
-	  var ctx = me.rectangleCanvas.getContext("2d");
-	  ctx.clearRect(0, 0, me.width, me.height);
+	  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+	    var slice = byteCharacters.slice(offset, offset + sliceSize);
+	    var byteNumbers = [];
+
+	    for (var i = 0; i < slice.length; i++) {
+	      byteNumbers.push(slice.charCodeAt(i));
+	    } // 8 位无符号整数值的类型化数组。内容将初始化为 0。
+	    // 如果无法分配请求数目的字节，则将引发异常。
+
+
+	    byteArrays.push(new Uint8Array(byteNumbers));
+	  }
+
+	  var result = new Blob(byteArrays, {
+	    type: contentType
+	  });
+	  result = Object.assign(result, {
+	    // 这里一定要处理一下 URL.createObjectURL
+	    preview: URL.createObjectURL(result),
+	    name: fileTitle + ".png"
+	  });
+	  return result;
 	}
 
 	function backRightClient(e) {
@@ -5243,6 +5324,24 @@
 	  }
 
 	  return [clientX, clientY];
+	}
+
+	function drawMiddleImage(me) {
+	  me.rectangleCanvas.width = me.width * me.scale;
+	  me.rectangleCanvas.height = me.height * me.scale;
+	  var ctx = me.rectangleCanvas.getContext('2d');
+	  ctx.drawImage(me.kss, me.startX * me.scale, (me.startY + me.scrollTop) * me.scale, me.width * me.scale, me.height * me.scale, 0, 0, me.width * me.scale, me.height * me.scale);
+	  var dataURL = me.rectangleCanvas.toDataURL('image/png');
+	  me.imgBase64 = dataURL;
+	  me.snapshootList[0] = dataURL;
+	  me.currentImgDom.src = me.imgBase64;
+	}
+
+	function clearMiddleImage(me) {
+	  me.rectangleCanvas.width = me.width * me.scale;
+	  me.rectangleCanvas.height = me.height * me.scale;
+	  var ctx = me.rectangleCanvas.getContext("2d");
+	  ctx.clearRect(0, 0, me.width, me.height);
 	}
 
 	function toolbarPosition(me, width, height, top, left, toolbar) {
@@ -5315,53 +5414,54 @@
 	  lineList.forEach(function (it) {
 	    dom.appendChild(createLine(it.name, it.style));
 	  });
+	  var podot = dotSize / 2 + 2;
 	  var dotList = [{
 	    name: 'nw',
 	    style: {
-	      top: '-' + (dotSize / 2 + 'px'),
-	      left: '-' + dotSize / 2 + 'px'
+	      top: '-' + (podot + 'px'),
+	      left: '-' + podot + 'px'
 	    }
 	  }, {
 	    name: 'ne',
 	    style: {
-	      top: '-' + (dotSize / 2 + 'px'),
-	      right: '-' + dotSize / 2 + 'px'
+	      top: '-' + (podot + 'px'),
+	      right: '-' + podot + 'px'
 	    }
 	  }, {
 	    name: 'se',
 	    style: {
-	      bottom: '-' + (dotSize / 2 + 'px'),
-	      right: '-' + dotSize / 2 + 'px'
+	      bottom: '-' + (podot + 'px'),
+	      right: '-' + podot + 'px'
 	    }
 	  }, {
 	    name: 'e',
 	    style: {
-	      top: "calc(50% - ".concat(dotSize / 2 + 'px', ")"),
-	      right: '-' + dotSize / 2 + 'px'
+	      top: "calc(50% - ".concat(podot + 'px', ")"),
+	      right: '-' + podot + 'px'
 	    }
 	  }, {
 	    name: 'w',
 	    style: {
-	      top: "calc(50% - ".concat(dotSize / 2 + 'px', ")"),
-	      left: '-' + dotSize / 2 + 'px'
+	      top: "calc(50% - ".concat(podot + 'px', ")"),
+	      left: '-' + podot + 'px'
 	    }
 	  }, {
 	    name: 'n',
 	    style: {
-	      top: '-' + (dotSize / 2 + 'px'),
-	      left: "calc(50% - ".concat(dotSize / 2 + 'px', ")")
+	      top: '-' + (podot + 'px'),
+	      left: "calc(50% - ".concat(podot + 'px', ")")
 	    }
 	  }, {
 	    name: 's',
 	    style: {
-	      bottom: '-' + (dotSize / 2 + 'px'),
-	      left: "calc(50% - ".concat(dotSize / 2 + 'px', ")")
+	      bottom: '-' + (podot + 'px'),
+	      left: "calc(50% - ".concat(podot + 'px', ")")
 	    }
 	  }, {
 	    name: 'sw',
 	    style: {
-	      bottom: '-' + (dotSize / 2 + 'px'),
-	      left: '-' + dotSize / 2 + 'px'
+	      bottom: '-' + (podot + 'px'),
+	      left: '-' + podot + 'px'
 	    }
 	  }];
 	  dotList.forEach(function (it) {
@@ -6379,7 +6479,7 @@
 
 	    if ('download' in a) {
 	      a.href = imgUrl;
-	      a.download = 'kss' + new Date().getTime() + '.png';
+	      a.download = new Date().getTime() + '.png';
 	      var event = document.createEvent('MouseEvents');
 	      event.initEvent('click', false, false);
 	      a.dispatchEvent(event);
@@ -6393,6 +6493,8 @@
 	}
 
 	function endAndClear(me) {
+	  var kssBody = document.querySelector('.kssBody');
+	  kssBody.removeAttribute('style');
 	  removeClass(document.body, 'kssBody');
 	  me.kss && remove(me.kss);
 	  me.kssScreenShotWrapper && remove(me.kssScreenShotWrapper);
@@ -6414,20 +6516,45 @@
 	  setTimeout(function () {
 	    document.removeEventListener('contextmenu', me.preventContextMenu);
 	  }, 0);
-	  document.removeEventListener('keydown', me.endScreenShot);
 	  document.removeEventListener('mouseup', me.cancelDrawingStatus);
+	  me.endScreenShot = null;
+	  me.preventContextMenu = null;
+	  me.cancelDrawingStatus = null;
+	}
+
+	function language() {
+	  var lang = null;
+	  var language = null;
+
+	  if (navigator.appName == 'Netscape') {
+	    language = navigator.language;
+	  } else {
+	    language = navigator.browserLanguage;
+	  }
+
+	  if (language.indexOf('en') > -1) {
+	    lang = "en";
+	  } else if (language.indexOf('zh') > -1) {
+	    lang = "zh";
+	  } else {
+	    lang = "en";
+	  }
+
+	  return lang;
 	}
 
 	function completeBT(me) {
 	  var completeBT = document.createElement('span');
 	  completeBT.id = 'kssCompleteBT';
-	  completeBT.className = 'kssToolbarItemBT';
-	  completeBT.innerHTML = '完成';
-	  completeBT.title = '完成截图';
-	  css(completeBT, {
-	    width: '40px',
-	    'line-height': '28px'
-	  });
+	  completeBT.className = 'iconfont iconcheck kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    completeBT.title = '完成截图';
+	  } else {
+	    completeBT.title = 'Finish';
+	  }
+
 	  completeBT.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee() {
 	    var lastShot;
 	    return regenerator.wrap(function _callee$(_context) {
@@ -6437,21 +6564,10 @@
 	            me.isEdit = true;
 	            lastShot = me.snapshootList[me.snapshootList.length - 1];
 	            copy(me, lastShot);
-	            _context.t0 = me.needDownload === true;
-
-	            if (!_context.t0) {
-	              _context.next = 7;
-	              break;
-	            }
-
-	            _context.next = 7;
-	            return download(me);
-
-	          case 7:
-	            typeChecking(me.endCB) === '[object Function]' && me.endCB(lastShot);
+	            typeChecking(me.endCB) === '[object Function]' && me.endCB.call(me, lastShot);
 	            endAndClear(me);
 
-	          case 9:
+	          case 5:
 	          case "end":
 	            return _context.stop();
 	        }
@@ -6461,22 +6577,22 @@
 	  return completeBT;
 	}
 
-	var img$7 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkElEQVRYR+2Wv07CcBDHf1eaaNq+haMv4Ao9dk18BZhAF1iITsQ4QFxgEZ7B6EyO2Vdw8iloownhTKsltemfX69DGfitvbvvp9+73x9QNS+oWV8dAQ7Tge9m83xrmk/AvLCIXqrMie+6NzvDuDCZ706JPpO1Uh3wEF8VwGUQDMx9i2gugfARewwwC3OZ32yiKz2AdnuklHqIgiUQ/8QD/d1u5KzXj1oAQZCHuFAAHQlEUlwxL22ibpqLuUMogdggDgBgshfLEQ9bXNTbJAQzDx2iaVpeivjcJurnaRQC/LVjpgB6UaE0CIm4lgORqIeYCSEVLwWQ5URYJNZzZp46RMOi1u6HWzcwy4l4flnx0g7kQUjExQAbxAkADKr+vQggOYxVIbS2Yab1zPfhN4Bx7OAp3PtxaG2AWrehzmkoPQsKHdARjyyVQBzmZcRKgY/4XNt17NX9IIk/yRRz1yZalj2yg3jxk+yr1TrbNhpjg/ndIvp90wmX77rXbBgdE+D2ZLX6SJYp3AVCXe20I8DRgR/EvCcwIlPjxgAAAABJRU5ErkJggg==";
-
 	function quitBT(me) {
 	  var quitBT = document.createElement('span');
 	  quitBT.id = 'kssQuitBT';
-	  quitBT.className = 'kssToolbarItemBT';
-	  quitBT.title = '退出截图';
-	  var quitImg = document.createElement('img');
-	  quitImg.className = 'kssToolbarItemImg';
-	  quitImg.src = img$7;
-	  me.quitBT = quitImg;
-	  quitBT.appendChild(quitImg);
+	  quitBT.className = 'iconfont iconclose kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    quitBT.title = '退出截图';
+	  } else {
+	    quitBT.title = 'Exist';
+	  }
+
 	  quitBT.addEventListener('click', function () {
 	    me.isEdit = true;
 	    endAndClear(me);
-	    me.cancelCB && me.cancelCB();
+	    me.cancelCB && me.cancelCB.call(me);
 	  }, false);
 	  return quitBT;
 	}
@@ -6636,11 +6752,17 @@
 	  var ctx = me.rectangleCanvas.getContext('2d');
 	  ctx.drawImage(me.rectangleCanvas, 0, 0, me.width * me.scale, me.height * me.scale, 0, 0, me.width * me.scale, me.height * me.scale);
 	  var dataURL = me.rectangleCanvas.toDataURL('image/png');
+	  var kssToolbarItemBT = document.getElementsByClassName('kssToolbarItemBT');
+	  Array.prototype.forEach.call(kssToolbarItemBT, function (it) {
+	    var bol = hasClass(it, 'iconundo');
+
+	    if (bol) {
+	      addClass(it, 'greaterone');
+	    }
+	  });
 	  me.snapshootList.push(dataURL);
 	  me.currentImgDom.src = dataURL;
 	}
-
-	var img$6 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABvElEQVRIS+XWvUrDUBQH8P+51qZ+0C6u4uwoRQenCsXG78kX8AHEVsFRxw7aFDdBH0A3QUojIk6KID6BoELB3YKStM2RoNXaJjVpbxUxU4Z78jvn3nPvDeGXHvolF38HntrhMMrlESZvSTNXCnoqdFs/s74qTmSMBSIcAFB8LREjl08pM7UxvmBVM44AzPtC3wczKKongzfVWF9wQjPSBKy3AgNiIp/sPm8JXjzkrmLBWAZRxAlnRpQIs86JtQE3q1TNmqNgPgUQ/jHYRpn5jIB+9+QkV+yCGgBfAhT7TEQi7I4KFbBsdEM63Ay1u1fVjE3p8HeoXaV02AsqHfaKSoUnt0vjJCy9bssYgFBrT6RqM0mZahsVZJ2C0FOzT11Re8ykZi4J8L79zkAJCA7pSXr0fGQ6oowXkJh2qrT6Yft4fSoYWYAGWfDeyUro2PPt5IZaLOInq90XrV0Wb1Gut1MnUVe406gj/BNoAxzb4gFFmPdE6PtYP8aLjDWt74cva5zImGNEfNVptKHiuV3uNZ/NawKGwShaLNR2u9et8xu6Op7mSEApj4hK4C63Rg/tbJlmsb5+9mQm8f/gVxWf/x9Ysb+OAAAAAElFTkSuQmCC";
 
 	function activeToolbarItem(obj) {
 	  var kssToolbarItemBT = document.getElementsByClassName('kssToolbarItemBT');
@@ -6650,7 +6772,7 @@
 
 	  if (obj) {
 	    addClass(obj, 'kssToolbarActiveItemBT');
-	    document.getElementById('kssRectangleCanvas').style.cursor = 'crosshair';
+	    document.getElementById('kssRectangleCanvas').style.cursor = 'auto';
 	  } else {
 	    document.getElementById('kssRectangleCanvas').style.cursor = 'move';
 	  }
@@ -6677,15 +6799,16 @@
 	function arrowBT(me) {
 	  var arrowBT = document.createElement('span');
 	  arrowBT.id = 'kssArrowBT';
-	  arrowBT.className = 'kssToolbarItemBT';
-	  arrowBT.title = '箭头工具';
-	  var arrowImg = document.createElement('img');
-	  arrowImg.className = 'kssToolbarItemImg';
-	  arrowImg.src = img$6;
-	  me.arrowBT = arrowBT;
-	  arrowBT.appendChild(arrowImg);
+	  arrowBT.className = 'iconfont iconarrow-top-right kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    arrowBT.title = '插入箭头';
+	  } else {
+	    arrowBT.title = 'Insert Arrow';
+	  }
+
 	  arrowBT.addEventListener('click', function () {
-	    alert(1);
 	    me.isEdit = true;
 
 	    if (me.currentToolType === 'arrow') {
@@ -6768,28 +6891,30 @@
 	  return arrowBT;
 	}
 
-	var img$5 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAEfElEQVRIS8WWa4hUZRjH//8zXtKFFArybs05wUISUULqB9E9R7vQBT8YIblSGVgWVu6MVpSTZLt7xkzQbhSpGXSTEhGzPGeWgqhPiYZCcs7squgSUX0xNzfn/GNGZ52ZHecSgufT8M7zPL/neZ/L+xBX6eNV4qJxsMAO35plEAsFTQEwieB5Sf0g+6Tcvo1O7+FGA6kLfmafNfqa0UoAXEXg+pqGhayMaEN6fnYbCNWSrQlOeuZ8EdsITocUgfQjRtuRM07njRrUeADTQMyQMI/kzRdhhxhFS7sXZH+5HPyy4KRnrgbggjQA7DmvKLHJyR6rFUWyJz5TkbGVwJ2CBiA8mnbCz6rpVAUnPOtVEq9I+JsGlrhtwZ5Gc5eXS3hmkkBn3ulIWLrRCT6u1B8G7vCsRwxiJ6SzNKI53W29h5qBFmUT/k0LgdheSPkbuy/thPtL7ZSB1xyIj4tonCBxLZRb7Dq9uyqhiz9H7Mbr4g+l7ewn9RxKZMx2ijsknWyZGFqpWzBY1CkDJ33zNYAvSdibdoL7q0PNLwguGqHchNed3t/qwZOe9SOIWUD0nGtnNw8HC0z61u+CxsdiaO2aHwalRi9EegGaPx8c+e+kzXOP99cFZ+I2ZHiAfnXtsHUYeI1vzhH4g4Dv0nYwrxa0GXBeNumZp0FOFGCl7SDMnw1dddK31gFIUVjd7QSbiuDKSEscOiOoD2IfoKMRuOMNJzha7QaSvrkF4NNA9KRrZ98tB3vmdpDLJN1TrMAa0GH2BQnCzhH45/lO59QfpQJJz3oKxFtQ1Ok62RfLwAnPPEDSIXO3FVso4ZvvE1xeL4+l/ws4FdPg3C7nRLZ43uGbiwzwSwDbXDt4rCpYwB1pO/i5kBs/vgIw3mkGXJAVDrpOcPsQOGM9aAi7BX2QtsMnKsE7SLZDWuQ64e6iUtKPPwsYbzYLF3J3pe3eb0sDkLA+7QT5WiorrhSAdQK60nbwQlmO/ge8FJLwzc0EV4nR4+m27Idl4GI7QTrhOuH0yggrIx877mxLaubps6kejDhjTJ+K3MhbGWkFybsv6Gqna4ft+V8J3+wnOAG5c5PdhScLL9ulyVUYIOZfIMdFkL3RDjO14EVwpUyHb7ZR/ArQ12knfDh5aYAcce1wRlG+fGRmzJchrofwk+sEs6vlNeFbayltGBjk2C33Bueq9m2PNSWWGxjotE/9mchYRwm0QljpOsHbVcH5bWPMKB0DOa1ykJQC1nrT4qXtcrnCS2TiWyljZd1HIm+gw7NmG8T3gmKGsKTbCT9ttqILeR1605Wr+ywOtVDGTEB0C9OIWl6sxEYcyD+tMoyPADyQl294ERiCe+ZqAd0kYxB2iVhbHPDVHOj45oYWxlqWg0wRHC/hHKBlTa0+JfCyZU/gYRA9FAIZUR8jjhIxFcJMEIsJjrnYSkcEthcnYDVHm1hvsbLQizU+QccBdbe0Zd9LEVEt2brgIeWLCz0RLQA5lcBkgech9dNgn5HD/q4FwcFG6qB8gDSqcYXkGo/4CgGLZv4D60EPPWzjB68AAAAASUVORK5CYII=";
-
 	function backBT(me) {
 	  var backBT = document.createElement('span');
 	  backBT.id = 'kssbackeBT';
-	  backBT.className = 'kssToolbarItemBT';
-	  backBT.title = '后退';
-	  var backImg = document.createElement('img');
-	  backImg.className = 'kssToolbarItemImg';
-	  backImg.src = img$5;
-	  me.backBT = backBT;
-	  backBT.appendChild(backImg);
+	  backBT.className = 'iconfont iconundo kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    backBT.title = '撤销';
+	  } else {
+	    backBT.title = 'Undo';
+	  }
+
 	  backBT.addEventListener('click', function () {
 	    if (me.snapshootList.length > 1) {
 	      if (me.snapshootList.length === 2) {
 	        layerSort(me, 'canvasLayer');
+	        backBT.classList.remove('greaterone');
 	        backToInit();
 	      }
 
 	      me.snapshootList.pop();
 	    } else if (me.snapshootList.length === 1) {
 	      layerSort(me, 'canvasLayer');
+	      backBT.classList.remove('greaterone');
 	      backToInit();
 	    }
 
@@ -6811,18 +6936,18 @@
 	  return backBT;
 	}
 
-	var img$4 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAACM0lEQVRIS+3UO2hTYRgG4PftyR+Q9CqCEkgGJc2pRWgRBCkIVtChIDrYQR1EHFx0cnJROqh066IEFHRz00UXg9R08AJaXDRBRcwpQXBw0dj85/JJYkOjPWlzOTFLM2XI+Z687/efn+jSh11ysQn/t+YDr/rDVvS7veohwIMAchA9aVoo/JsoUHgFfQZwrAqJ4PqIpS93DPZDK5gn58wl+05H4C9xDP2CelqbdAV6nMzrowTcwOEyWhS1QHK0driIPDEte4qA7Xdi29pxXRR4ZOb18Xpo+Y+0DG+AHiPgrPdutgTnotjmGWp+bb14YFp6eiO0pcR/DlL4OYDk3zutoCf8DlIgO/48iMFSn8qA3LP6rsp907JPN4o2lfjrdkS+h9XtkItZV9sfsUWlQe4TqaAnCUgz921DOy6nXO5XaYJ7ReQnKUcinvOmSHV22LJvNouum7hSaa+6CmJCgDGSodVEUjIc7E8U7MVmUtb+1jexAKFsTC0S2CGQGxC8JnumQFwqPywiLwZc+1C0gGKg8PuYOgMiFQLHE3n9rjo8G1Ovyt/dZXty9Bt+tIr6Vv1pCAO6L/wWwL2RvL5SOzwbV2l6kkkuOTPtoGvgbDw0AeEtkBEjr3cngFKlWoC5uLoAcI7iHUhazkLAcHgaIncBvCSYgrgloTEO4hSAnRBJmZZ9vl3Ut+psFEkY6qKAhwnZBUJDON8D79qw5WSCQJu6QIICq3MaukCCRjcTd6LRujO7tuPfh7/TH020z8AAAAAASUVORK5CYII=";
-
 	function drawLineBT(me) {
 	  var drawLineBT = document.createElement('span');
 	  drawLineBT.id = 'kssDrawLineBT';
-	  drawLineBT.className = 'kssToolbarItemBT';
-	  drawLineBT.title = '画刷工具';
-	  var drawLineImg = document.createElement('img');
-	  drawLineImg.className = 'kssToolbarItemImg';
-	  drawLineImg.src = img$4;
-	  me.drawLineBT = drawLineBT;
-	  drawLineBT.appendChild(drawLineImg);
+	  drawLineBT.className = 'iconfont iconbrush kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    drawLineBT.title = '插入画笔';
+	  } else {
+	    drawLineBT.title = 'Brush';
+	  }
+
 	  drawLineBT.addEventListener('click', function () {
 	    me.isEdit = true;
 	    var kssSetLineWidth = document.getElementById('kssSetLineWidth');
@@ -6890,18 +7015,26 @@
 	  return drawLineBT;
 	}
 
-	var img$3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAA5klEQVRIS2NkGCDAOED2MoxaDA75ouWfUhkYGKWpEQ2MjIzveW9wT25oYPyHbB5GUBct/5TEyMA4lxqWIsz4X90byddGwOLPDYwMDPX/GRg2MjAwXKDEAYz/GVQYGBmi//9nmNkXxZtBpMWMiX2RPAsosbhw2RcPJsb/20ctBoUilsQFi+PRoCY9mY0mrtF8jJJqipaPZifSsxFMx2h2GvTZqZOJ4f8O8mOYgeH///9mDIyMnUTVx8XLPpWBFFNiIaZeIpo+oav+M8v9+5rz//9/QWpYTnRjjxqWEWPGaIOemFCiihoAPCwYLhqAkIYAAAAASUVORK5CYII=";
+	/**
+	 * 默认矩形编辑配置
+	 */
+	var options$1 = {
+	  strokeStyle: '#ee5026',
+	  lineWidth: 5
+	};
 
 	function rectBT(me) {
 	  var rectBT = document.createElement('span');
 	  rectBT.id = 'kssRectBT';
-	  rectBT.className = 'kssToolbarItemBT';
-	  rectBT.title = '方形工具';
-	  var rectImg = document.createElement('img');
-	  rectImg.className = 'kssToolbarItemImg';
-	  rectImg.src = img$3;
-	  me.rectBT = rectBT;
-	  rectBT.appendChild(rectImg);
+	  rectBT.className = 'iconfont iconrectangle kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    rectBT.title = '插入矩形';
+	  } else {
+	    rectBT.title = 'Insert Rectangle';
+	  }
+
 	  rectBT.addEventListener('click', function () {
 	    me.isEdit = true;
 
@@ -6961,8 +7094,8 @@
 	        context.lineTo(Math.max(startX, endX) * me.scale, Math.max(startY, endY) * me.scale);
 	        context.lineTo(Math.min(startX, endX) * me.scale, Math.max(startY, endY) * me.scale);
 	        context.lineTo(Math.min(startX, endX) * me.scale, Math.min(startY, endY) * me.scale);
-	        context.lineWidth = 1;
-	        context.strokeStyle = me.toolbarColor;
+	        context.lineWidth = options$1.lineWidth;
+	        context.strokeStyle = options$1.strokeStyle;
 	        context.stroke();
 	        context.closePath();
 	      }
@@ -6977,18 +7110,26 @@
 	  return rectBT;
 	}
 
-	var img$2 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAADQElEQVRIS9WWT2gUZxjGn3dmIsbsrOhF8E+1hXpKQKtUD56sxaZFPKjb3Un00IqFQquZXXMUr0p2llAoVApVSWbWzUWkBGlpexQV06LisbZWhV4s3dl1Q3dmHhllIerszmQ1hM5xvvd9ft/7fR/v+wgW6ZNF4uL/AR6pcKXi1zIgBiBcT8AXyn0CN6mlpkoZeZT0BBNVPOLUtyr0T0BkEIAG8F9Q7lIgAm4AZDkAj+A0oJ60cn2/xm2gI7hwnn3sqZ0FsB/AbZDjAZf8XBpa+vtc4ZHJ2bdE+e89gXwJoJ/A1Kya+uTrjNTabaAt+Gil8YbmNX8AsJqCvJXVv4UIO1ZCill2DwtRBOSBp2m7xzO996JyIsFfTDDdo7o3AGkqqvbRWKb3btzRzV0vVBpv0vOmKdSavr7lq2GpvpgfCc7b7o8UbPQp744bqb/nA23FHnMaG1Q2bwJytWjo78eCC3Z9DxFcDDTZVMqkbnUDbeUUbDdDwQWKssfK9n0/V+ulik3HnRHwdjGXPvQq0Fau6VSvA6JaOf2dtuBRp77aR/AgCNRtpaFl114HOF+uD4LBtOqr604PL7vf0nyuYtN2PxPhqWJWXxH7ghPu6kCF6jrPfQTIqGXo30SC83Z1jCKbrJy+K6FuorC87f5E4YyVSx+PrthxJ4Vg0dCHEykmDDIjdJ876rztToRaCwEGGVhG+mCbO66GHWezZeg7ExaTKCzvuL+AvFE00oXoOy67RxBw7J6mr5jKiJ9INS6IlHzZ/Qcio8WsfiYSPDrxeK2v+n8FlMGSkbocp5lk3Sw/3i70r6hQ1pzO9T2MBIc/TSfs0WxYufSOJMJxMaZdPQeRfiunb+nYuZ62TAkuCfHxmKFX4oQ7rY9UagOKx9+oKHtjW2Yo9GxIcLsEPf3Fod4/u4EftWurNOEMiDuJhkQIaY1FIXzRegbnOxaPT86+HUjz0rzH4tOqJxvrId5lgGsoOGZl9e9i22j4gh33UwBWaARA7YN2J9bR+nxeYWqpVzsrgn3ztD4XZtXU4a6sz9x7NZ36ZsA/KZAPW2aPkD/CmAUxey8+qtDeilc7AMFACFxwe9vNq47LSeSr40S6WV808BNkBHIuAp7D7gAAAABJRU5ErkJggg==";
+	/**
+	 * 默认椭圆编辑配置
+	 */
+	var options = {
+	  strokeStyle: '#ee5026',
+	  lineWidth: 5
+	};
 
 	function ellipseBT(me) {
 	  var ellipseBT = document.createElement('span');
 	  ellipseBT.id = 'kssArrowBT';
-	  ellipseBT.className = 'kssToolbarItemBT';
-	  ellipseBT.title = '椭圆工具';
-	  var ellipseImg = document.createElement('img');
-	  ellipseImg.className = 'kssToolbarItemImg';
-	  ellipseImg.src = img$2;
-	  me.ellipseBT = ellipseBT;
-	  ellipseBT.appendChild(ellipseImg);
+	  ellipseBT.className = 'iconfont iconcircle kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    ellipseBT.title = '插入椭圆';
+	  } else {
+	    ellipseBT.title = 'Insert Ellipse';
+	  }
+
 	  ellipseBT.addEventListener('click', function () {
 	    me.isEdit = true;
 
@@ -7050,8 +7191,8 @@
 	        var ox = radiusX * k;
 	        var oy = radiusY * k;
 	        context.beginPath();
-	        context.lineWidth = 1;
-	        context.strokeStyle = me.toolbarColor;
+	        context.lineWidth = options.lineWidth;
+	        context.strokeStyle = options.strokeStyle;
 	        context.moveTo((centerX - radiusX) * me.scale, centerY * me.scale);
 	        context.bezierCurveTo((centerX - radiusX) * me.scale, (centerY - oy) * me.scale, (centerX - ox) * me.scale, (centerY - radiusY) * me.scale, centerX * me.scale, (centerY - radiusY) * me.scale);
 	        context.bezierCurveTo((centerX + ox) * me.scale, (centerY - radiusY) * me.scale, (centerX + radiusX) * me.scale, (centerY - oy) * me.scale, (centerX + radiusX) * me.scale, centerY * me.scale);
@@ -7071,18 +7212,18 @@
 	  return ellipseBT;
 	}
 
-	var img$1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAEUElEQVRIS+2VXWwUZRSG3/ebbUuhf7Oh1QtR2+4umAbTBONP/Enw5wLxQhLDBRilQFi7w4+aYDDRpIlCg6ka2842jVAMMQRMBLzQVKMJJMRIVBLQAO5sqVgUhWRmtxCK7c4cM1vAtdLdLSb0xrmazHfmPOd9v3O+j5imh9PExf/gm+b8jVndJqqi1pobULzFr5Siucy4g/b68JliKy8aHOy2mkRxLSHNEJkP4oyAv4+DRBGcC0i5gN/DVeuddY0/5CuiMLhNAnpd8hUINpLodJUc0kZ52F4fHs5NrPcO3H6JmDFzzF0IYgsEW53z4Q600bteAXnB1fFEgwL2Ahhmhst8K3XTWp5NDAx6Glalo+GBoJnYAXKFiGQAbhDRPiUzH5I4YMcir08N7CutTR4RyPaUEXnv6s9B0xoCcVvWYGCrU1H5hn7xQpqAlv0mOOIY4QVV24aCgdGRHz0VWJR6oeHoRPikivW4tRki9Y7LlmqFpvSswHG01F/WzcRBko+MJ2LUPte4Ta+z/iA4+wr4E8cIP+2/6/HkIor3tl071oylTaO58OuCq+PJBZrIfrhogiYfgFwiIp85RmRxRU+yrsSTNwEec2obe7CUbo2ZaCbYDkrKQ1ksHbvDuQrR44lBIVtSreEDBcF63NopRJ8fHIwnDgO8VyBHnVikudhx+Rts7QO5x2kN7S4IDpqJL20j8njWrq6B+dS8JzylfXV1r6q7fq5X2ugmt7T81eHVc+x8xehmcisgpx0jHM8PfmeoXC8b6fcUOpXwWVfUlmGj8dvcn6q6E/cFFL8B5NeMaEsmrv9jzExrjwdsTxvhL/KCq3uSjypPngcwh8RCgXQ4scjGiaqCZmKvv/cQOWkbkbsmUx00E8cvB0ofuxS982xesN498CSUtxxkHJ68hoCKOtHGXyYmruz9abbmqnYFrPaIVanWcN+/4L1Somess44RyXZ8fsXxRIMmPGgHQg2IcqxQM+k9Vis8dAvYkjJCO3Pja3qslUow346FXyoIzjaUae0nxHOpNqe1xmOFCsjCBaYIV1yDbz9ZGbysfWfPcO/BqnkXigKj0yqrCcgyCp4BcT+gPnJioVa0iaqpGzAo8hDBHbYR6r82NlfgFEZtI/R+jWl1gDydioW6ruda4UvCPFehM93vUntZEzcC4KnREm1D6Vjma6e8pMk/zXLhFMRFuE4owdTs0Gb/gLkx8Lj17STOC3iCIitHFY1SkUN2eeDuXLAPqIlbLyrgXR/uGKHuyXqksOLsmXvqYYj78Z9Qi0vpPUjBA1Tos1vDn/uJZ5mDt5Yws4bAcxSu9SjzfDiEG20j1HHDirNKzMQGEm8BOAEwNZ5MdABVEA6S3G1L1S4YdRdzlU8GL0rxtYp7f5tZlRlpUsqbBfFvQBlKxyKnJrNTN61NJNohXOM3XN45LjS3U12/4tR5JxbZdVPB/6m5pqqymPip7XExGYuMmTbwX5NFzi48sixUAAAAAElFTkSuQmCC";
-
 	function colorBT(me) {
 	  var colorBT = document.createElement('span');
 	  colorBT.id = 'kssColorBT';
-	  colorBT.className = 'kssToolbarItemBT';
-	  colorBT.title = '颜色工具';
-	  var colorImg = document.createElement('img');
-	  colorImg.className = 'kssToolbarItemImg';
-	  colorImg.src = img$1;
-	  me.colorBT = colorBT;
-	  colorBT.appendChild(colorImg);
+	  colorBT.className = 'iconfont iconpalette kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    colorBT.title = '颜色工具';
+	  } else {
+	    colorBT.title = 'Color';
+	  }
+
 	  colorBT.addEventListener('click', function () {
 	    var clientHeight = document.documentElement.clientHeight;
 	    var colorBoard = document.getElementById('kssColorBoard');
@@ -7104,18 +7245,18 @@
 	  return colorBT;
 	}
 
-	var img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAApUlEQVRIS2NkGCDAOED2MoxaTLeQxxnUHn0/DjAwMtpT5pL/B3YUcjhiM4PWFu/bUcjhTJrF/b8SGBj+K2D18X8GBQZGhnio3AIGBoaH2NT9Z2S8t7OAbRFJFuMLYvfe346MTP/2gdQw/mdy2F7EepDUKCErO41aPBrUxCS00cRFTCgxjGan0exETEIZzU7EhNIIzE5EBQsBRWQlrlGLyQmBAQtqAM8ijR/H6NfmAAAAAElFTkSuQmCC";
-
 	function textBT(me) {
 	  var textBT = document.createElement('span');
 	  textBT.id = 'kssTextBT';
-	  textBT.className = 'kssToolbarItemBT';
-	  textBT.title = '字体工具';
-	  var textImg = document.createElement('img');
-	  textImg.className = 'kssToolbarItemImg';
-	  textImg.src = img;
-	  me.textBT = textBT;
-	  textBT.appendChild(textImg);
+	  textBT.className = 'iconfont icont kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    textBT.title = '插入文字';
+	  } else {
+	    textBT.title = 'Insert Text';
+	  }
+
 	  textBT.addEventListener('click', function () {
 	    me.isEdit = true;
 
@@ -7238,6 +7379,43 @@
 	    me.kssTextLayer.addEventListener('mousedown', me.textClickEvent);
 	  });
 	  return textBT;
+	}
+
+	function saveImage(me) {
+	  var completeBT = document.createElement('span');
+	  completeBT.id = 'kssSaveImageBT';
+	  completeBT.className = 'iconfont icondownload kssToolbarItemBT';
+	  var lan = language();
+
+	  if (lan === 'zh') {
+	    completeBT.title = '保存';
+	  } else {
+	    completeBT.title = 'Save';
+	  }
+
+	  completeBT.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee() {
+	    var lastShot;
+	    return regenerator.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            lastShot = me.snapshootList[me.snapshootList.length - 1];
+	            copy(me, lastShot);
+	            _context.next = 4;
+	            return download(me);
+
+	          case 4:
+	            typeChecking(me.download) === '[object Function]' && me.download.call(me, lastShot);
+	            endAndClear(me);
+
+	          case 6:
+	          case "end":
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee);
+	  })));
+	  return completeBT;
 	}
 
 	var colorList = ['#000', '#808080', '#800000', '#f7883a', '#308430', '#385ad3', '#800080', '#009999', '#fff', '#c0c0c0', '#fb3838', '#ffff00', '#99cc00', '#3894e4', '#f31af3', '#16dcdc'];
@@ -7380,24 +7558,8 @@
 	}
 
 	var toolConfig = [{
-	  component: completeBT,
-	  show: 'complete',
-	  width: 40
-	}, {
-	  component: quitBT,
-	  show: 'quit',
-	  width: 30
-	}, {
-	  component: backBT,
-	  show: 'back',
-	  width: 30
-	}, {
-	  component: arrowBT,
-	  show: 'arrow',
-	  width: 30
-	}, {
-	  component: drawLineBT,
-	  show: 'drawLine',
+	  component: colorBT,
+	  show: 'color',
 	  width: 30
 	}, {
 	  component: rectBT,
@@ -7408,13 +7570,33 @@
 	  show: 'ellipse',
 	  width: 30
 	}, {
+	  component: arrowBT,
+	  show: 'arrow',
+	  width: 30
+	}, {
+	  component: drawLineBT,
+	  show: 'drawLine',
+	  width: 30
+	}, {
 	  component: textBT,
 	  show: 'text',
 	  width: 30
 	}, {
-	  component: colorBT,
-	  show: 'color',
+	  component: backBT,
+	  show: 'back',
 	  width: 30
+	}, {
+	  component: saveImage,
+	  show: 'save',
+	  width: 30
+	}, {
+	  component: quitBT,
+	  show: 'quit',
+	  width: 30
+	}, {
+	  component: completeBT,
+	  show: 'complete',
+	  width: 40
 	}];
 	function createToolbar(me) {
 	  var toolbar = document.createElement('div');
@@ -7422,20 +7604,25 @@
 
 	  if (typeChecking(me.toolShow) !== '[object Object]') {
 	    me.toolShow = {};
-	  }
+	  } // let toolbarWidth = 0
 
-	  var toolbarWidth = 0;
-	  toolConfig.forEach(function (it) {
+
+	  toolConfig.forEach(function (it, index) {
 	    if (me.toolShow[it.show] !== false) {
-	      toolbar.appendChild(it.component(me));
-	      toolbarWidth += it.width;
+	      if (index === 6) {
+	        var span = document.createElement('span');
+	        span.className = 'split';
+	        toolbar.appendChild(span);
+	      }
+
+	      toolbar.appendChild(it.component(me)); // toolbarWidth += it.width
 	    }
-	  });
-	  toolbarWidth += 10;
-	  me.toolbarWidth = toolbarWidth;
+	  }); // toolbarWidth += 10
+	  // me.toolbarWidth = toolbarWidth
+
 	  css(toolbar, {
-	    top: me.height + me.toolbarMarginTop + 'px',
-	    width: toolbarWidth + 'px'
+	    top: me.height + me.toolbarMarginTop + 'px' // width: toolbarWidth + 'px'
+
 	  });
 	  toolbarPosition(me, me.width, me.height, me.startY, me.startX, toolbar); // me.toolShow.complete !== false && toolbar.appendChild(completeBT(me))
 	  // me.toolShow.back !== false && toolbar.appendChild(backBT(me))
@@ -7478,10 +7665,11 @@
 	  }
 	}
 
-	var css_248z = "@charset \"UTF-8\";\n.kssBody {\n  cursor: crosshair;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .kssBody noscript strong {\n    display: none; }\n  .kssBody #kss {\n    position: fixed;\n    top: 0;\n    left: 0;\n    z-index: 10000; }\n  .kssBody #kssScreenShotWrapper {\n    position: fixed;\n    background: transparent;\n    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);\n    z-index: 10001; }\n    .kssBody #kssScreenShotWrapper #kssTextLayer {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 98;\n      cursor: crosshair; }\n      .kssBody #kssScreenShotWrapper #kssTextLayer .kssTextarea {\n        background: transparent;\n        resize: none;\n        min-width: 60px;\n        min-height: 36px;\n        box-sizing: border-box;\n        border-color: transparent;\n        overflow: hidden;\n        font-family: 宋体; }\n        .kssBody #kssScreenShotWrapper #kssTextLayer .kssTextarea:hover {\n          cursor: text;\n          outline: #488ff9 solid 1px; }\n    .kssBody #kssScreenShotWrapper #kssRectangleCanvas {\n      height: 100%;\n      width: 100%;\n      top: 0;\n      left: 0;\n      cursor: move;\n      position: absolute;\n      z-index: 99; }\n    .kssBody #kssScreenShotWrapper .kssDot, .kssBody #kssScreenShotWrapper .kssLine {\n      position: absolute;\n      background: #488ff9;\n      z-index: 100; }\n    .kssBody #kssScreenShotWrapper #kssCurrentImgDom {\n      width: 100%;\n      height: 100%;\n      position: absolute;\n      top: 0;\n      left: 0;\n      display: none; }\n    .kssBody #kssScreenShotWrapper #kssToolbar {\n      position: absolute;\n      right: 0;\n      background: #7d7c7a;\n      font-size: 14px;\n      border: 1px solid #575757;\n      border-radius: 4px;\n      box-sizing: border-box;\n      z-index: 100;\n      height: 40px;\n      box-shadow: 0 2px 4px 0 rgba(0, 0, 101, 0.08); }\n      .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarItemBT {\n        display: inline-block;\n        width: 30px;\n        height: 28px;\n        text-align: center;\n        float: right;\n        cursor: pointer; }\n        .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarItemBT:hover {\n          background: #dedede; }\n        .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarItemBT .kssToolbarItemImg {\n          width: 20px;\n          height: 20px;\n          margin-top: 5px; }\n      .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarActiveItemBT {\n        background: #dedede; }\n      .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard {\n        position: absolute;\n        width: 180px;\n        height: 40px;\n        right: 0;\n        background: #fff;\n        border: 1px solid #bbb;\n        border-radius: 4px;\n        display: none;\n        outline: none;\n        cursor: default;\n        z-index: 100; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard #kssCurrentColor {\n          display: inline-block;\n          width: 30px;\n          height: 30px;\n          margin: 5px 8px 0 8px;\n          box-sizing: border-box;\n          border: 1px solid #333; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard #kssColorItemWrapper {\n          display: inline-block;\n          vertical-align: top;\n          width: 130px;\n          margin-top: 5px;\n          font-size: 0; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard #kssColorItemWrapper .kssColorItem {\n            display: inline-block;\n            width: 14px;\n            height: 14px;\n            margin-right: 2px;\n            box-sizing: border-box;\n            border: 1px solid #333;\n            cursor: pointer; }\n      .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth {\n        position: absolute;\n        width: 155px;\n        height: 40px;\n        right: 0;\n        background: #fff;\n        border: 1px solid #bbb;\n        border-radius: 4px;\n        display: none;\n        outline: none;\n        cursor: default;\n        z-index: 100; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper {\n          margin: 7px 0 0 8px;\n          position: relative;\n          display: inline-block; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssNumInput {\n            width: 40px;\n            height: 24px;\n            border: 1px solid #bbb;\n            border-radius: 4px;\n            padding: 0 15px 0 8px; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper {\n            position: absolute;\n            right: 0;\n            top: 1px;\n            border-radius: 0 4px 4px 0;\n            font-size: 0;\n            line-height: 12px; }\n            .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssUpNum, .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssDownNum {\n              height: 12px;\n              font-size: 12px;\n              cursor: pointer; }\n              .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssUpNum:hover, .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssDownNum:hover {\n                background: #dedede; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssShowLineWidthWrapper {\n          display: inline-block;\n          height: 40px;\n          line-height: 40px;\n          vertical-align: top;\n          width: 80px;\n          text-align: center; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssShowLineWidthWrapper #kssShowLineWidth {\n            height: 20px;\n            display: inline-block;\n            vertical-align: middle; }\n";
-	styleInject(css_248z);
+	var css_248z$1 = "@font-face {font-family: \"iconfont\";\n  src: url('iconfont.eot?t=1618561420008'); /* IE9 */\n  src: url('iconfont.eot?t=1618561420008#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAAC3wAAAV0AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDfgqIbIciATYCJAMsCxgABCAFhG0HgQcb0Qkjki9OieyfCZnA9bAUOzsr4riL7InxwtpcR+VtwhGdvy2aaHwmHv5/rd03/+/syBKhiSXORjreRENRS1RLkKBla9V/eE97QbcyHdKOUnFCcQDSOzcTksEnMjvqj6huDBezeQj+permNH9sWkAESCZ82sUndxx5vId8in4dL8NFqAAWwJ6/n9pifF0lXsGRV+8D3m/+lWgAbAGFWqYwfplQQKwmVIXdlJ2Rbgayq0vcAvHg4wQaI/piaVd2VDJyXCAu/nhXlUnLDa5QJcuKS7N4BZ6qeEavgpfg9+OfRUWhk5AnbRwtH5j74pcwykQZliigpitCvIqEPjJxW1m+kaKevqTRh2ZLqGixYKo+/5LJxNlCPIpecUUa9l+8WqmrI0sKQZSI3oPxlOlt+KLD6+ggFTBAamCClMAC6QIbpAMckAxckAQ8kAIoiPdYb71LhjBILEO8ATF2gshQClkv7h9zCnU9wP39RkdIPKc9bW3EYgvc0cHWbOGs8rliRIIKh1Kb6C2GzcaN6iZ2Hb2hzdC63tjPKKnUqQa5/f37qv2RdweU9+4pRS2ld2+Td7p0cVGiA9wdTrHxoFB49q5rd1gTKezSfZ+ruMMJr2bt2J2+Ep54/WbDFh/LdZuojZ5inNlo3DxTpVZqVHrHRJTx2zYbfTWNjKwRgD3mJWqhRXSAfotBX6pSlykkExTv3lVsuMhx6nFJPNplMV+mLlBYyOOuloRxM8IzbBFJ6U2A32+cIuURM/UtO9yL1OiajRspmVbTuOcmG7226dj7yhcaNwI0kkSzHDkFftkm6YYTDpmeUU20jXpQSoFVl0lU1fu8oYnaucma8N1TYqKPRMdk7G4QXN0tvxJILVf3YJZLzi92WHzf8b7Xcp6REIHuWFzJbiCq6/WKVOwwxHZmd99M+8i0rfgTEHyK12w9t9JJfmsxZ1/IMZczwnYqy9Jd7cicQfnoWXvFyWE5fzgvGUnMtmW2CeaZl4Q1FtR0RCmkY+V0lUyTKUsyj4K1jHDVeetcwSsq76HCZPh/deeO9PSdO9G4Y2dKCgZ/Sh2kVkc/Tb/SKsp9x47NtLM1r1sY0d0dKsDtw3fs8IgAzfsjd27TXY5MnBhei504idUy5okTbhSlpCaitbWoMknYbSISDqaUY/jfvxnKMTDIyaT2VUIvNjCAQenlGGRuWxh1krAknMK2FIrsBoF3VlasXYQda8UgGRJJFlzhDozbinEIPwViPZe4SyhB7eZaARWp9tJQovXj5o+thHS7vmjWnr13d62dux3T0XGRcLMPk1wMVca4cC1UPrmWmODsfPXTJ3fPgXwJu8cAmD6kiZgjgOle2oIFAABgjxjSZFWYJxNdlNo1AgBbQa/6v6Vu9Hv1Az35LzjMJw3WMVKa+K0S/TLWPO6aQAfNppMZphO+ykJn4TsvdFyEGxLhp5gXhx/oF7kEsy4UENIc+N4PAFh5On1OZqk+RGUwAVTXMGAqU1bc2Qee1gyYqcxCdCPA69Uta2wJyTUw7ZsBhIUfQBFOAMbCrxV3/gGP3D+YsYglCKni4ZYi3uEPj4xKcIThDl5TNnZODuH4N7TnqDgtBZ4v5Mm3Q1e3+f5XzMhTnDFdbC9iwDAleGGehjESFKYTaqmdSDk2jan6plpTmh1kYEgRaAQGd8DTSGa81cWh8PNvkHUWKdwwrZ74BbGJ3zno1NoO1lc9d5p2K1MnF1ZP2C4DGHEsScALW0SR9hBQqg86QZqouQFdxVHDLme66vXyRnq8t0CD1EkbRaTI0YkyulFFHU200SPdZaZrJVQq9tbJtqiIIjiX9cDnya3OeaSN9qwj7vkevE9lG3GtI024H+maI6mxW2uHOsxmAAAA') format('woff2'),\n  url('iconfont.woff?t=1618561420008') format('woff'),\n  url('iconfont.ttf?t=1618561420008') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */\n  url('iconfont.svg?t=1618561420008#iconfont') format('svg'); /* iOS 4.1- */\n}\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.iconarrow-top-right:before {\n  content: \"\\e648\";\n}\n\n.iconpalette:before {\n  content: \"\\e647\";\n}\n\n.icont:before {\n  content: \"\\e646\";\n}\n\n.iconbrush:before {\n  content: \"\\e645\";\n}\n\n.iconundo:before {\n  content: \"\\e644\";\n  color: #a8a5a0;\n}\n\n.greaterone:before {\n  color: #fff;\n}\n\n.iconcircle:before {\n  content: \"\\e642\";\n}\n\n.iconrectangle:before {\n  content: \"\\e643\";\n}\n\n.iconclose:before {\n  content: \"\\e63e\";\n  color: #e1483b;\n}\n\n.icondownload:before {\n  content: \"\\e641\";\n}\n\n.iconcheck:before {\n  content: \"\\e63c\";\n  color: #54b436;\n}\n\n";
+	styleInject(css_248z$1);
 
-	// import {a} from './toolbar.js'
+	var css_248z = "@charset \"UTF-8\";\n.kssBody {\n  cursor: crosshair;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .kssBody noscript strong {\n    display: none; }\n  .kssBody #kss {\n    position: fixed;\n    top: 0;\n    left: 0;\n    z-index: 10000; }\n  .kssBody #kssScreenShotWrapper {\n    position: fixed;\n    background: transparent;\n    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);\n    z-index: 10001; }\n    .kssBody #kssScreenShotWrapper #kssTextLayer {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 98; }\n      .kssBody #kssScreenShotWrapper #kssTextLayer .kssTextarea {\n        background: transparent;\n        resize: none;\n        min-width: 60px;\n        min-height: 36px;\n        box-sizing: border-box;\n        border-color: transparent;\n        overflow: hidden;\n        font-family: 宋体; }\n        .kssBody #kssScreenShotWrapper #kssTextLayer .kssTextarea:hover {\n          cursor: text;\n          outline: #488ff9 solid 1px; }\n    .kssBody #kssScreenShotWrapper #kssRectangleCanvas {\n      height: 100%;\n      width: 100%;\n      top: 0;\n      left: 0;\n      cursor: move;\n      position: absolute;\n      z-index: 99; }\n    .kssBody #kssScreenShotWrapper .kssDot,\n    .kssBody #kssScreenShotWrapper .kssLine {\n      position: absolute;\n      background: #000000;\n      z-index: 100; }\n    .kssBody #kssScreenShotWrapper .kssDot {\n      border: 1px solid #000000;\n      border-radius: 50%;\n      background: #fff; }\n    .kssBody #kssScreenShotWrapper #kssCurrentImgDom {\n      width: 100%;\n      height: 100%;\n      position: absolute;\n      top: 0;\n      left: 0;\n      display: none; }\n    .kssBody #kssScreenShotWrapper #kssToolbar {\n      position: absolute;\n      right: 0;\n      background: #837e75;\n      border: 1px solid #626262;\n      border-radius: 4px;\n      box-sizing: border-box;\n      height: 40px;\n      box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.2);\n      display: -ms-flexbox;\n      display: flex;\n      -ms-flex-align: center;\n          align-items: center;\n      width: auto;\n      padding: 0 10px;\n      z-index: 100; }\n      .kssBody #kssScreenShotWrapper #kssToolbar .split {\n        border-left: 1px solid #918c8c;\n        display: inline-block;\n        height: 20px;\n        margin: 0 8px; }\n      .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarItemBT {\n        display: inline-block;\n        height: 30px;\n        line-height: 30px;\n        text-align: center;\n        cursor: pointer;\n        color: #fff;\n        font-size: 20px;\n        margin: 0 10px; }\n        .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarItemBT .kssToolbarItemImg {\n          width: 20px;\n          height: 20px;\n          margin-top: 5px; }\n      .kssBody #kssScreenShotWrapper #kssToolbar .kssToolbarActiveItemBT {\n        color: #53b436; }\n      .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard {\n        position: absolute;\n        width: 180px;\n        height: 40px;\n        right: 0;\n        background: #fff;\n        border: 1px solid #bbb;\n        border-radius: 4px;\n        display: none;\n        outline: none;\n        cursor: default;\n        z-index: 100; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard #kssCurrentColor {\n          display: inline-block;\n          width: 30px;\n          height: 30px;\n          margin: 5px 8px 0 8px;\n          box-sizing: border-box;\n          border: 1px solid #333; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard #kssColorItemWrapper {\n          display: inline-block;\n          vertical-align: top;\n          width: 130px;\n          margin-top: 5px;\n          font-size: 0; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssColorBoard #kssColorItemWrapper .kssColorItem {\n            display: inline-block;\n            width: 14px;\n            height: 14px;\n            margin-right: 2px;\n            box-sizing: border-box;\n            border: 1px solid #333;\n            cursor: pointer; }\n      .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth {\n        position: absolute;\n        width: 155px;\n        height: 40px;\n        right: 0;\n        background: #fff;\n        border: 1px solid #bbb;\n        border-radius: 4px;\n        display: none;\n        outline: none;\n        cursor: default;\n        z-index: 100; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper {\n          margin: 7px 0 0 8px;\n          position: relative;\n          display: inline-block; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssNumInput {\n            width: 40px;\n            height: 24px;\n            border: 1px solid #bbb;\n            border-radius: 4px;\n            padding: 0 15px 0 8px; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper {\n            position: absolute;\n            right: 0;\n            top: 1px;\n            border-radius: 0 4px 4px 0;\n            font-size: 0;\n            line-height: 12px; }\n            .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssUpNum,\n            .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssDownNum {\n              height: 12px;\n              font-size: 12px;\n              cursor: pointer; }\n              .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssUpNum:hover,\n              .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssNumInputWrapper #kssArrowNumWrapper #kssDownNum:hover {\n                background: #dedede; }\n        .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssShowLineWidthWrapper {\n          display: inline-block;\n          height: 40px;\n          line-height: 40px;\n          vertical-align: top;\n          width: 80px;\n          text-align: center; }\n          .kssBody #kssScreenShotWrapper #kssToolbar #kssToolbarMiddleArea #kssSetLineWidth #kssShowLineWidthWrapper #kssShowLineWidth {\n            height: 20px;\n            display: inline-block;\n            vertical-align: middle; }\n";
+	styleInject(css_248z);
 
 	function initLineWidth(initLine) {
 	  if (isNaN(initLine)) {
@@ -7497,15 +7685,11 @@
 	  }
 	}
 
-	var kss = function () {
-	  var instance; //单例模式
-
-	  var kss = function kss(options) {
+	var kscreen = /*#__PURE__*/function () {
+	  function kscreen(options) {
 	    var _this = this;
 
-	    if (instance) {
-	      return instance;
-	    }
+	    _classCallCheck(this, kscreen);
 
 	    this.kss = null;
 	    this.style = null;
@@ -7521,10 +7705,10 @@
 
 	    this.snapshootList = [];
 	    /*
-	    * 1: 点下左键，开始状态
-	    * 2: 鼠标移动，进行状态
-	    * 3: 放开左键，结束状态
-	    * */
+	     * 1: 点下左键，开始状态
+	     * 2: 鼠标移动，进行状态
+	     * 3: 放开左键，结束状态
+	     * */
 
 	    this.drawingStatus = null;
 	    this.currentToolType = null;
@@ -7534,14 +7718,14 @@
 	    this.startY = null;
 	    this.width = null;
 	    this.height = null;
-	    this.dotSize = 6;
+	    this.dotSize = 5;
 	    this.lineSize = 2; //工具显示状态
 
 	    this.toolShow = options.toolShow; //工具栏样式
 
 	    this.toolbarWidth = null;
-	    this.toolbarHeight = 30;
-	    this.toolbarMarginTop = 5;
+	    this.toolbarHeight = 40;
+	    this.toolbarMarginTop = 10;
 	    this.toolbarColor = '#fb3838';
 	    this.toolbarLineWidth = typeChecking(options.toolShow) === '[object Object]' ? initLineWidth(options.toolShow.drawLine) : 10; //工具栏事件
 
@@ -7549,43 +7733,13 @@
 	    this.toolmousemove = null;
 	    this.toolmouseup = null; //根据base64获取绝对地址
 
-	    this.copyPath = options.copyPath; //是否下载
+	    this.copyPath = options.copyPath; //保存回调
 
-	    this.needDownload = options.needDownload; //成功回调
+	    this.download = options.download; //成功回调
 
 	    this.endCB = options.endCB; //撤销回调
 
 	    this.cancelCB = options.cancelCB;
-
-	    this.startDrawDown = function (e) {
-	      var that = _this;
-	      document.addEventListener('mouseup', that.cancelDrawingStatus);
-	      document.addEventListener('contextmenu', that.preventContextMenu); //当不是鼠标左键时立即返回
-
-	      if (e.button !== 0) {
-	        return;
-	      }
-
-	      if (that.drawingStatus !== null) {
-	        return;
-	      }
-
-	      that.drawingStatus = 1;
-	      that.startX = e.clientX;
-	      that.startY = e.clientY; //移除并添加
-
-	      remove(document.getElementById('kssScreenShotWrapper'));
-	      var kssScreenShotWrapper = document.createElement('div');
-	      kssScreenShotWrapper.id = 'kssScreenShotWrapper';
-	      that.kssScreenShotWrapper = kssScreenShotWrapper;
-	      var kssTextLayer = document.createElement('div');
-	      kssTextLayer.id = 'kssTextLayer';
-	      that.kssTextLayer = kssTextLayer;
-	      kssScreenShotWrapper.appendChild(kssTextLayer);
-	      document.body.appendChild(kssScreenShotWrapper);
-	      document.addEventListener('mousemove', that.drawing);
-	      document.addEventListener('mouseup', that.endDraw);
-	    };
 
 	    this.drawing = function (e) {
 	      var that = _this;
@@ -7632,7 +7786,8 @@
 	        that.startY = Math.min(that.startY, clientY);
 	      }
 
-	      document.removeEventListener('mousemove', that.drawing);
+	      document.removeEventListener('mousemove', that.drawing); // 画版
+
 	      var canvas = document.createElement('canvas');
 	      canvas.id = 'kssRectangleCanvas';
 	      that.kssScreenShotWrapper.appendChild(canvas);
@@ -7698,6 +7853,7 @@
 	        }
 	      });
 	      that.kss.removeEventListener('mousedown', that.startDrawDown);
+	      that.kss.removeEventListener('mouseup', that.drawDownComplete);
 	      document.removeEventListener('mouseup', that.endDraw);
 	      createDragDom(that.kssScreenShotWrapper, that.dotSize, that.lineSize, that);
 	      var img = document.createElement('img');
@@ -7708,116 +7864,172 @@
 	      that.toolbar = createToolbar(that);
 	    };
 
-	    this.preventContextMenu = function (e) {
-	      e.preventDefault();
-	    };
+	    this.init(options.key, options.immediately);
+	  }
 
-	    this.cancelDrawingStatus = function (e) {
-	      var that = _this;
+	  _createClass(kscreen, [{
+	    key: "init",
+	    value: function init(key, immediately) {
+	      if (immediately === true) {
+	        this.start();
+	        this.end();
+	      }
 
-	      if (e.button === 2) {
-	        if (that.drawingStatus === null) {
-	          document.removeEventListener('mouseup', that.cancelDrawingStatus);
-	          setTimeout(function () {
-	            document.removeEventListener('contextmenu', that.preventContextMenu);
-	          }, 0);
-	          endAndClear(that);
-	          that.cancelCB && that.cancelCB();
-	          return;
+	      if (key === undefined) {
+	        key = 65;
+	      } else if (key === null) {
+	        return;
+	      }
+
+	      document.addEventListener('keydown', this.isRightKey.bind(this, key));
+	    }
+	  }, {
+	    key: "startScreenShot",
+	    value: function startScreenShot() {
+	      if (!this.isScreenshot) {
+	        this.start();
+	        this.end();
+	      }
+	    }
+	  }, {
+	    key: "endScreenShot",
+	    value: function endScreenShot() {
+	      endAndClear(this);
+	    }
+	  }, {
+	    key: "isRightKey",
+	    value: function isRightKey(key, e) {
+	      if (e.keyCode === key && e.shiftKey && !this.isScreenshot) {
+	        this.start();
+	        this.end();
+	      }
+	    }
+	  }, {
+	    key: "start",
+	    value: function start() {
+	      var _this2 = this;
+
+	      if (this.isScreenshot) {
+	        return;
+	      }
+
+	      this.isScreenshot = true;
+	      html2canvas(document.body, {
+	        useCORS: true,
+	        scrollY: 200
+	      }).then(function (canvas) {
+	        // 遮罩
+	        _this2.kss = canvas;
+	        canvas.id = 'kss';
+	        _this2.scrollTop = document.documentElement.scrollTop;
+	        document.body.appendChild(canvas);
+	        addClass(document.body, 'kssBody');
+	        css(canvas, {
+	          top: "-".concat(_this2.scrollTop, "px")
+	        });
+	        canvas.addEventListener('mousedown', _this2.startDrawDown.bind(_this2));
+	        canvas.addEventListener('mouseup', _this2.drawDownComplete);
+	      });
+	    }
+	  }, {
+	    key: "end",
+	    value: function end() {
+	      var _this3 = this;
+
+	      this.endScreenShot = function (e) {
+	        // 按key: "Escape"
+	        if (e.keyCode === 27) {
+	          endAndClear(_this3);
+	          _this3.cancelCB && _this3.cancelCB.call(_this3);
+	        }
+	      };
+
+	      this.cancelDrawingStatus = function (e) {
+	        // 按鼠标右键
+	        if (e.button === 2) {
+	          endAndClear(_this3);
+	          _this3.cancelCB && _this3.cancelCB.call(_this3);
+	        }
+	      };
+
+	      this.preventContextMenu = function (e) {
+	        e.preventDefault();
+	      };
+
+	      document.addEventListener('keydown', this.endScreenShot);
+	      document.addEventListener('mouseup', this.cancelDrawingStatus);
+	      document.addEventListener('contextmenu', this.preventContextMenu);
+	    }
+	  }, {
+	    key: "startDrawDown",
+	    value: function startDrawDown(e) {
+	      //当不是鼠标左键时立即返回
+	      if (e.button !== 0) {
+	        return;
+	      }
+
+	      if (this.drawingStatus !== null) {
+	        return;
+	      }
+
+	      this.drawingStatus = 1;
+	      this.startX = e.clientX;
+	      this.startY = e.clientY; //移除并添加dom
+
+	      remove(document.getElementById('kssScreenShotWrapper'));
+	      var kssScreenShotWrapper = document.createElement('div');
+	      kssScreenShotWrapper.id = 'kssScreenShotWrapper';
+	      this.kssScreenShotWrapper = kssScreenShotWrapper;
+	      var kssTextLayer = document.createElement('div');
+	      kssTextLayer.id = 'kssTextLayer';
+	      this.kssTextLayer = kssTextLayer;
+	      kssScreenShotWrapper.appendChild(kssTextLayer);
+	      document.body.appendChild(kssScreenShotWrapper);
+	      document.addEventListener('mousemove', this.drawing);
+	      document.addEventListener('mouseup', this.endDraw);
+	    }
+	  }, {
+	    key: "drawDownComplete",
+	    value: function drawDownComplete() {
+	      var kssBody = document.querySelector('.kssBody');
+	      kssBody.style.cursor = 'auto';
+	    }
+	  }, {
+	    key: "copyClipboard",
+	    value: function copyClipboard(base64Image, fileTitle) {
+	      var base64 = base64Image.split(',')[1];
+	      var result = base64ToBlob({
+	        b64data: base64,
+	        contentType: 'image/png',
+	        sliceSize: 512,
+	        fileTitle: ''
+	      }); // 转后后的blob对象
+
+	      try {
+	        // https://w3c.github.io/clipboard-apis/
+	        var clipboard = navigator.clipboard;
+
+	        if (clipboard == undefined) {
+	          console.log('clipboard is undefined');
+	        } else {
+	          var data = [new ClipboardItem(_defineProperty({}, result.type, result))];
+	          navigator.clipboard.write(data).then(function () {
+	            console.log("添加到剪贴板成功");
+	          }, function () {
+	            console.error("添加到剪贴板失败");
+	          });
 	        }
 
-	        remove(that.kssScreenShotWrapper);
-	        that.kssScreenShotWrapper = null;
-	        that.kssTextLayer = null;
-	        that.rectangleCanvas = null;
-	        that.drawingStatus = null;
-	        that.isEdit = false;
-	        that.snapshootList = [];
-	        that.currentToolType = null;
-	        that.toolmousedown = null;
-	        that.toolmousemove = null;
-	        that.toolmouseup = null;
-	        that.kss.addEventListener('mousedown', that.startDrawDown);
-	      }
-	    };
-
-	    this.startScreenShot = function () {
-	      _this.start();
-	    };
-
-	    this.endScreenShot = function () {
-	      endAndClear(_this);
-	    };
-
-	    this.init(options.key, options.immediately);
-	    return instance = this;
-	  };
-
-	  kss.prototype.init = function (key, immediately) {
-	    var that = this;
-
-	    if (immediately === true) {
-	      that.start();
-	      that.end();
-	    }
-
-	    if (key === undefined) {
-	      key = 65;
-	    } else if (key === null) {
-	      return;
-	    }
-
-	    document.addEventListener('keydown', isRightKey.bind(null, key));
-
-	    function isRightKey(key, e) {
-	      if (e.keyCode === key && e.shiftKey && !that.isScreenshot) {
-	        that.start();
-	        that.end();
+	        return result;
+	      } catch (error) {
+	        console.error(error);
 	      }
 	    }
-	  };
+	  }]);
 
-	  kss.prototype.start = function () {
-	    var that = this;
-
-	    if (that.isScreenshot) {
-	      return;
-	    }
-
-	    that.isScreenshot = true;
-	    html2canvas(document.body, {
-	      useCORS: true,
-	      scrollY: 200
-	    }).then(function (canvas) {
-	      that.kss = canvas;
-	      that.scrollTop = document.documentElement.scrollTop;
-	      canvas.id = 'kss';
-	      document.body.appendChild(canvas);
-	      addClass(document.body, 'kssBody');
-	      css(canvas, {
-	        top: "-".concat(that.scrollTop, "px")
-	      });
-	      canvas.addEventListener('mousedown', that.startDrawDown);
-	    });
-	  };
-
-	  kss.prototype.end = function () {
-	    var that = this;
-
-	    that.endScreenShot = function (e) {
-	      if (e.keyCode === 27) {
-	        endAndClear(that);
-	        that.cancelCB && that.cancelCB();
-	      }
-	    };
-
-	    document.addEventListener('keydown', that.endScreenShot);
-	  };
-
-	  return kss;
+	  return kscreen;
 	}();
 
-	return kss;
+	return kscreen;
 
 })));
-//# sourceMappingURL=kss.dev.js.map

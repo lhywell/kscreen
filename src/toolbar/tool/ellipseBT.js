@@ -4,6 +4,7 @@ import makeSnapShoot from '../makeSnapShoot'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
 import language from '../../common/language'
+import options from '../../config/EllipseConfig'
 
 export default function ellipseBT(me) {
   let ellipseBT = document.createElement('span')
@@ -81,8 +82,8 @@ export default function ellipseBT(me) {
         let oy = radiusY * k
 
         context.beginPath()
-        context.lineWidth = 1
-        context.strokeStyle = me.toolbarColor
+        context.lineWidth = options.lineWidth
+        context.strokeStyle = options.strokeStyle
         context.moveTo((centerX - radiusX) * me.scale, centerY * me.scale)
         context.bezierCurveTo(
           (centerX - radiusX) * me.scale,

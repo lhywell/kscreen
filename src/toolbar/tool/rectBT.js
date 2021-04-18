@@ -4,6 +4,7 @@ import makeSnapShoot from '../makeSnapShoot'
 import activeToolbarItem from '../activeToolbarItem'
 import layerSort from '../layerSort'
 import language from '../../common/language'
+import options from '../../config/RectConfig'
 
 export default function rectBT (me) {
     let rectBT = document.createElement('span')
@@ -77,8 +78,8 @@ export default function rectBT (me) {
                 context.lineTo(Math.max(startX, endX) * me.scale, Math.max(startY, endY) * me.scale)
                 context.lineTo(Math.min(startX, endX) * me.scale, Math.max(startY, endY) * me.scale)
                 context.lineTo(Math.min(startX, endX) * me.scale, Math.min(startY, endY) * me.scale)
-                context.lineWidth = 1
-                context.strokeStyle = me.toolbarColor
+                context.lineWidth = options.lineWidth
+                context.strokeStyle = options.strokeStyle
                 context.stroke()  
                 context.closePath()
             }

@@ -4,7 +4,7 @@ export default function download (me) {
         let a = document.createElement('a')
         if ('download' in a) {
             a.href = imgUrl
-            a.download = 'kss' + (new Date()).getTime() + '.png'
+            a.download = (new Date()).getTime() + '.png'
 
             let event = document.createEvent('MouseEvents')
             event.initEvent('click', false, false)

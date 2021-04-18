@@ -64,6 +64,9 @@ option && myChart.setOption(option);
 
 new kscreen({
     key: 65,
+    download: function(base64Image) {
+        console.log(base64Image)
+    },
     endCB: function(base64Image) {
         let title = Date.now().toString()
         let r = this.copyClipboard(base64Image, title);

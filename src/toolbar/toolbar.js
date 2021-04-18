@@ -9,6 +9,7 @@ import rectBT from './tool/rectBT'
 import ellipseBT from './tool/ellipseBT'
 import colorBT from './tool/colorBT'
 import textBT from './tool/textBT'
+import saveImage from './tool/saveImage'
 
 import toolbarMiddleArea from './toolbarMiddleArea'
 import toolbarPosition from './toolbarPosition'
@@ -46,6 +47,11 @@ const toolConfig = [{
     {
         component: backBT,
         show: 'back',
+        width: 30
+    },
+    {
+        component: saveImage,
+        show: 'save',
         width: 30
     },
     {

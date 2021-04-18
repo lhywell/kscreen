@@ -73,9 +73,9 @@ export default class kscreen {
 
         //根据base64获取绝对地址
         this.copyPath = options.copyPath
-        //是否下载
-        this.needDownload = options.needDownload
 
+        //保存回调
+        this.download = options.download
         //成功回调
         this.endCB = options.endCB
         //撤销回调

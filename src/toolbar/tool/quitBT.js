@@ -19,7 +19,7 @@ export default function quitBT (me) {
         me.isEdit = true
         
         endAndClear(me)
-        me.cancelCB && me.cancelCB()
+        me.cancelCB && me.cancelCB.call(me)
     }, false)
 
     return quitBT

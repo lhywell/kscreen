@@ -274,7 +274,7 @@ export default class kscreen {
             // 按key: "Escape"
             if (e.keyCode === 27) {
                 endAndClear(this)
-                this.cancelCB && this.cancelCB()
+                this.cancelCB && this.cancelCB.call(me)
             }
         }
 
@@ -282,7 +282,7 @@ export default class kscreen {
             // 按鼠标右键
             if (e.button === 2) {
                 endAndClear(this)
-                this.cancelCB && this.cancelCB()
+                this.cancelCB && this.cancelCB.call(me)
             }
         }
 

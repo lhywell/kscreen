@@ -1,7 +1,7 @@
 kscreen
 ===========
 
-根据 [kscreenshot][1]@1.2.3版本代码修改，修复退出截图，esc报错等问题
+微信截图工具，根据 [kscreenshot][1]@1.2.3版本代码修改，修复退出截图，esc报错等问题
 
 ![](https://github.com/kejiacheng/img/blob/master/kscreenshot/screenshot1.gif)
 ![](https://github.com/kejiacheng/img/blob/master/kscreenshot/screenshot2.gif)
@@ -25,11 +25,19 @@ npm install kscreen --save
 import kscreen from 'kscreen'
 
 //65指键盘中的A
-new kscreen(
-    {
-        key: 65 
+new kscreen({
+    key: 65,
+    download: function(base64Image) {
+        console.log(base64Image)
+    },
+    endCB: function(base64Image) {
+        let title = Date.now().toString()
+        let r = this.copyClipboard(base64Image, title);
+    },
+    cancelCB: () => {
+        console.log('canlel')
     }
-)
+})
 ```
 当按下shift + A将会触发截图功能
 

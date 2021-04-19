@@ -15,7 +15,7 @@ npm install kscreen --save
 ### 功能
 该截图工具带有下载，复制功能，并可用工具栏对截图进行简单绘制。
 
-![](https://github.com/kejiacheng/img/blob/master/kscreenshot/toolbar.png)
+![](https://github.com/lhywell/kscreen/blob/main/docs/1618802892963.jpg)
 
 工具栏功能从左到右依次为：颜色，文字，椭圆，矩形，线条，箭头，后退，完成。
 

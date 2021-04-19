@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>kscreenshot</title>
+    <style type="text/css">
+    body,
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #app {
+
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 99999;
+    }
+
+    .editor {
+        width: 600px;
+        height: 400px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>按下shift + A 截屏</h1>
+        <h3>ckeditor</h3>
+        编辑器的部分工具截图会显示白色
+        <div class="editor">
+            <div id="editor"></div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+
+<!-- 引入kscreen -->
+<script src="https://unpkg.com/kscreen@0.0.2/dist/kscreen.js"></script>
+
+<script>
+ClassicEditor
+    .create(document.querySelector('#editor'))
+    .catch(error => {
+        console.error(error);
+    });
+</script>
+
+<script>
+let ks = new kscreen({
+    key: 65,
+    download: function(base64Image) {
+        console.log(base64Image)
+    },
+    endCB: function(base64Image) {
+        let title = Date.now().toString()
+        let r = this.copyClipboard(base64Image, title);
+
+    },
+    cancelCB: () => {
+        console.log('canlel')
+    }
+})
+</script>
+
+</html>

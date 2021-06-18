@@ -79,7 +79,9 @@ export default {
             VERSION: JSON.stringify(version),
             ENV: JSON.stringify(process.env.NODE_ENV || 'development')
         }),
-        livereload(),
+        ENV == 'development' ?
+        livereload():
+        '',
         // 开启服务
         ENV == 'development' ?
         serve({

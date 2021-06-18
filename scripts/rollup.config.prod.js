@@ -18,6 +18,9 @@ import replace from 'rollup-plugin-replace'
 
 import { terser } from 'rollup-plugin-terser'
 
+//编译css
+const postcss = require('rollup-plugin-postcss');
+
 export default {
     input: rlv('./src/main.js'),
     output: {
@@ -27,10 +30,16 @@ export default {
         name: 'kscreen',
         intro: 'var global = typeof self !== undefined ? self : this;'
     },
+    external: ['./src/styles/css/kscreen.css','./src/styles/fonts/iconfont.css'],
     watch: {
         include: 'src/**',
     },
     plugins: [
+        postcss({
+            plugins: [
+                require('autoprefixer')({ overrideBrowserslist: ['> 0.15% in CN'] })
+            ]
+        }),
         commonjs({ sourceMap: false }),
         builtins(),
         json({ preferConst: true }),

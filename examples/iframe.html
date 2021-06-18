@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>kscreenshot-iframe</title>
+    <style type="text/css">
+    body,
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #app {
+
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>按下shift + A 截屏</h1>
+        <div style="position: relative;">
+            <iframe id="ifm" src="https://www.wulihub.com.cn/gc/WjleOJ/index.html" width="400" height="200" style="position: absolute;top:0;z-index: 1"></iframe>
+            <!-- <iframe id="ifm" src="https://www.wulihub.com.cn/gc/WjleOJ/index.html" width="400" height="200" style="position: absolute;top:0;z-index: -1"></iframe> -->
+        </div>
+    </div>
+</body>
+<!-- 引入jquery -->
+<!-- 引入kss -->
+<script src="../dist/kscreen.dev.js"></script>
+<script>
+
+new kscreen({
+    key: 65,
+    endCB: function(base64Image) {
+        let title = Date.now().toString()
+        let r = this.copyClipboard(base64Image, title);
+    },
+    // cancelCB:()=>{
+    //     console.log('canlel')
+    // }
+})
+</script>
+
+</html>
